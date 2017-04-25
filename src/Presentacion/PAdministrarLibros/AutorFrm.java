@@ -31,8 +31,8 @@ public class AutorFrm extends javax.swing.JFrame {
 
         labelNombre = new javax.swing.JLabel();
         labelPaisOrigen = new javax.swing.JLabel();
-        textDireccion = new javax.swing.JTextField();
-        textFechaAfiliacion = new javax.swing.JTextField();
+        textNombre = new javax.swing.JTextField();
+        textPaisOrigen = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableAutores = new javax.swing.JTable();
         buttonRegistrar = new javax.swing.JButton();
@@ -89,8 +89,8 @@ public class AutorFrm extends javax.swing.JFrame {
                         .addComponent(labelPaisOrigen)
                         .addGap(22, 22, 22)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(textDireccion)
-                    .addComponent(textFechaAfiliacion, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textNombre)
+                    .addComponent(textPaisOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -99,11 +99,11 @@ public class AutorFrm extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelPaisOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textFechaAfiliacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textPaisOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonRegistrar)
@@ -160,7 +160,7 @@ public class AutorFrm extends javax.swing.JFrame {
     private javax.swing.JLabel labelNombre;
     private javax.swing.JLabel labelPaisOrigen;
     private javax.swing.JTable tableAutores;
-    private javax.swing.JTextField textDireccion;
-    private javax.swing.JTextField textFechaAfiliacion;
+    private javax.swing.JTextField textNombre;
+    private javax.swing.JTextField textPaisOrigen;
     // End of variables declaration//GEN-END:variables
 }
