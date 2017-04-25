@@ -79,7 +79,7 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Apellidos", "Nombres", "CI"
             }
         ));
         jScrollPane1.setViewportView(tableBibliotecarios);

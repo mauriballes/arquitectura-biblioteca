@@ -63,39 +63,39 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
 
         tableLibros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Titulo"
             }
         ));
         jScrollPane1.setViewportView(tableLibros);
 
         tableLectores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Apellidos y Nombres"
             }
         ));
         jScrollPane2.setViewportView(tableLectores);
 
         tableBibliotecario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Apellidos y Nombres"
             }
         ));
         jScrollPane3.setViewportView(tableBibliotecario);
@@ -126,7 +126,7 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Fecha Prestamo", "Fecha Devolucion", "Lector"
             }
         ));
         jScrollPane4.setViewportView(tablePrestamos);
@@ -135,13 +135,13 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
 
         tableDetallePrestamos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Libro", "Nro Ejemplar"
             }
         ));
         jScrollPane5.setViewportView(tableDetallePrestamos);
