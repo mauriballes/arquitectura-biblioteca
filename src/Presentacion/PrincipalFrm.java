@@ -6,6 +6,13 @@
 package Presentacion;
 
 import Datos.Conexion;
+import Presentacion.PAdministrarLibros.AutorFrm;
+import Presentacion.PAdministrarLibros.CategoriaFrm;
+import Presentacion.PAdministrarLibros.EditorialFrm;
+import Presentacion.PAdministrarLibros.LibroFrm;
+import Presentacion.PAdministrarPrestamos.BibliotecarioFrm;
+import Presentacion.PAdministrarPrestamos.FichaPrestamoFrm;
+import Presentacion.PAdministrarPrestamos.LectorFrm;
 
 /**
  *
@@ -19,6 +26,8 @@ public class PrincipalFrm extends javax.swing.JFrame {
     public PrincipalFrm() {
         initComponents();
         Conexion.getInstancia();
+        this.setTitle("Biblioteca");
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -30,7 +39,84 @@ public class PrincipalFrm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        MenuBar = new javax.swing.JMenuBar();
+        PrestamosMenu = new javax.swing.JMenu();
+        BibliotecarioMenuItem = new javax.swing.JMenuItem();
+        LectorMenuItem = new javax.swing.JMenuItem();
+        FichaPrestamoMenuItem = new javax.swing.JMenuItem();
+        LibrosMenu = new javax.swing.JMenu();
+        LibroMenuItem = new javax.swing.JMenuItem();
+        AutorMenuItem = new javax.swing.JMenuItem();
+        EditorialMenuItem = new javax.swing.JMenuItem();
+        CategoriaMenuItem = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        PrestamosMenu.setText("Administrar Prestamos");
+
+        BibliotecarioMenuItem.setText("Bibliotecario");
+        BibliotecarioMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BibliotecarioMenuItemActionPerformed(evt);
+            }
+        });
+        PrestamosMenu.add(BibliotecarioMenuItem);
+
+        LectorMenuItem.setText("Lector");
+        LectorMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LectorMenuItemActionPerformed(evt);
+            }
+        });
+        PrestamosMenu.add(LectorMenuItem);
+
+        FichaPrestamoMenuItem.setText("Ficha de Prestamo");
+        FichaPrestamoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FichaPrestamoMenuItemActionPerformed(evt);
+            }
+        });
+        PrestamosMenu.add(FichaPrestamoMenuItem);
+
+        MenuBar.add(PrestamosMenu);
+
+        LibrosMenu.setText("Administrar Libros");
+
+        LibroMenuItem.setText("Libro");
+        LibroMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LibroMenuItemActionPerformed(evt);
+            }
+        });
+        LibrosMenu.add(LibroMenuItem);
+
+        AutorMenuItem.setText("Autor");
+        AutorMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AutorMenuItemActionPerformed(evt);
+            }
+        });
+        LibrosMenu.add(AutorMenuItem);
+
+        EditorialMenuItem.setText("Editorial");
+        EditorialMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditorialMenuItemActionPerformed(evt);
+            }
+        });
+        LibrosMenu.add(EditorialMenuItem);
+
+        CategoriaMenuItem.setText("Categoria");
+        CategoriaMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CategoriaMenuItemActionPerformed(evt);
+            }
+        });
+        LibrosMenu.add(CategoriaMenuItem);
+
+        MenuBar.add(LibrosMenu);
+
+        setJMenuBar(MenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -40,11 +126,39 @@ public class PrincipalFrm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 275, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BibliotecarioMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BibliotecarioMenuItemActionPerformed
+        BibliotecarioFrm.main(null);
+    }//GEN-LAST:event_BibliotecarioMenuItemActionPerformed
+
+    private void LectorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LectorMenuItemActionPerformed
+        LectorFrm.main(null);
+    }//GEN-LAST:event_LectorMenuItemActionPerformed
+
+    private void FichaPrestamoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FichaPrestamoMenuItemActionPerformed
+        FichaPrestamoFrm.main(null);
+    }//GEN-LAST:event_FichaPrestamoMenuItemActionPerformed
+
+    private void LibroMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LibroMenuItemActionPerformed
+        LibroFrm.main(null);
+    }//GEN-LAST:event_LibroMenuItemActionPerformed
+
+    private void AutorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AutorMenuItemActionPerformed
+        AutorFrm.main(null);
+    }//GEN-LAST:event_AutorMenuItemActionPerformed
+
+    private void EditorialMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditorialMenuItemActionPerformed
+        EditorialFrm.main(null);
+    }//GEN-LAST:event_EditorialMenuItemActionPerformed
+
+    private void CategoriaMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoriaMenuItemActionPerformed
+        CategoriaFrm.main(null);
+    }//GEN-LAST:event_CategoriaMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -82,5 +196,15 @@ public class PrincipalFrm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AutorMenuItem;
+    private javax.swing.JMenuItem BibliotecarioMenuItem;
+    private javax.swing.JMenuItem CategoriaMenuItem;
+    private javax.swing.JMenuItem EditorialMenuItem;
+    private javax.swing.JMenuItem FichaPrestamoMenuItem;
+    private javax.swing.JMenuItem LectorMenuItem;
+    private javax.swing.JMenuItem LibroMenuItem;
+    private javax.swing.JMenu LibrosMenu;
+    private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JMenu PrestamosMenu;
     // End of variables declaration//GEN-END:variables
 }
