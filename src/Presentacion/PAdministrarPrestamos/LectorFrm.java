@@ -46,7 +46,7 @@ public class LectorFrm extends javax.swing.JFrame {
         textFechaAfiliacion = new javax.swing.JTextField();
         comboSexo = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableBibliotecarios = new javax.swing.JTable();
+        tableLectores = new javax.swing.JTable();
         buttonRegistrar = new javax.swing.JButton();
         buttonModificar = new javax.swing.JButton();
         buttonEliminar = new javax.swing.JButton();
@@ -71,7 +71,7 @@ public class LectorFrm extends javax.swing.JFrame {
 
         comboSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        tableBibliotecarios.setModel(new javax.swing.table.DefaultTableModel(
+        tableLectores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -82,7 +82,7 @@ public class LectorFrm extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tableBibliotecarios);
+        jScrollPane1.setViewportView(tableLectores);
 
         buttonRegistrar.setText("Registrar");
 
@@ -230,7 +230,7 @@ public class LectorFrm extends javax.swing.JFrame {
     private javax.swing.JLabel labelNombres;
     private javax.swing.JLabel labelSexo;
     private javax.swing.JLabel labelTelefono;
-    private javax.swing.JTable tableBibliotecarios;
+    private javax.swing.JTable tableLectores;
     private javax.swing.JTextField textApellidos;
     private javax.swing.JTextField textCi;
     private javax.swing.JTextField textDireccion;
