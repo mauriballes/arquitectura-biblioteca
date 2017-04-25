@@ -23,13 +23,222 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="400" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="labelApellidos" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelCi" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="textCi" min="-2" pref="223" max="-2" attributes="0"/>
+                          <Component id="textApellidos" alignment="1" min="-2" pref="223" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="330" pref="377" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="labelNombres" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="labelDireccion" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="textNombres" pref="223" max="32767" attributes="0"/>
+                                          <Component id="textDireccion" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                              <Component id="labelSexo" min="-2" max="-2" attributes="0"/>
+                                              <Component id="labelFechaNacimiento" min="-2" max="-2" attributes="0"/>
+                                              <Component id="labelTelefono" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="labelAnoContratacion" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="buttonRegistrar" min="-2" pref="111" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="144" max="-2" attributes="0"/>
+                                      <Component id="buttonModificar" max="32767" attributes="0"/>
+                                      <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="textTelefono" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="textFechaNacimiento" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="comboSexo" alignment="1" pref="189" max="32767" attributes="0"/>
+                                      <Component id="textAnoContratacion" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Component id="buttonEliminar" alignment="1" min="-2" pref="111" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="labelCi" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelFechaNacimiento" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                  <Component id="textCi" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textFechaNacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="labelApellidos" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                  <Component id="labelSexo" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                  <Component id="textApellidos" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="comboSexo" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelNombres" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                      <Component id="textNombres" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelTelefono" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="textTelefono" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="labelDireccion" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                  <Component id="labelAnoContratacion" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                  <Component id="textDireccion" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textAnoContratacion" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="buttonRegistrar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonModificar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="229" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="labelCi">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="CI"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelApellidos">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Apellidos"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelNombres">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nombres"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelDireccion">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Direccion"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelFechaNacimiento">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Fecha de Nacimiento"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelSexo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Sexo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelTelefono">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Telefono"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelAnoContratacion">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="A&#xf1;o de Contratacion"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="textCi">
+    </Component>
+    <Component class="javax.swing.JTextField" name="textApellidos">
+    </Component>
+    <Component class="javax.swing.JTextField" name="textNombres">
+    </Component>
+    <Component class="javax.swing.JTextField" name="textDireccion">
+    </Component>
+    <Component class="javax.swing.JTextField" name="textFechaNacimiento">
+    </Component>
+    <Component class="javax.swing.JTextField" name="textTelefono">
+    </Component>
+    <Component class="javax.swing.JTextField" name="textAnoContratacion">
+    </Component>
+    <Component class="javax.swing.JComboBox" name="comboSexo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="Item 1"/>
+            <StringItem index="1" value="Item 2"/>
+            <StringItem index="2" value="Item 3"/>
+            <StringItem index="3" value="Item 4"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="tableBibliotecarios">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="4" rowCount="4">
+                <Column editable="true" title="Title 1" type="java.lang.Object"/>
+                <Column editable="true" title="Title 2" type="java.lang.Object"/>
+                <Column editable="true" title="Title 3" type="java.lang.Object"/>
+                <Column editable="true" title="Title 4" type="java.lang.Object"/>
+              </Table>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JButton" name="buttonRegistrar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Registrar"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="buttonModificar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Modificar"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="buttonEliminar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Eliminar"/>
+      </Properties>
+    </Component>
+  </SubComponents>
 </Form>
