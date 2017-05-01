@@ -5,6 +5,12 @@
  */
 package Presentacion.PAdministrarPrestamos;
 
+import Negocio.NAdministrarPrestamos.LectorNegocio;
+import java.sql.Date;
+import java.util.Arrays;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author mauriballes
@@ -14,10 +20,106 @@ public class LectorFrm extends javax.swing.JFrame {
     /**
      * Creates new form LectorFrm
      */
+    private LectorNegocio m_LectorNegocio;
+
     public LectorFrm() {
         initComponents();
         this.setTitle("Gestionar Lector");
         this.setLocationRelativeTo(null);
+        m_LectorNegocio = new LectorNegocio();
+        inicializar();
+    }
+
+    public void cargarComboSexo() {
+        comboSexo.setModel(new DefaultComboBoxModel(new Object[]{"M", "F"}));
+    }
+
+    public void eliminarLector() {
+        int fila = tableLectores.getSelectedRow();
+        DefaultTableModel lectoresUpdated = (DefaultTableModel) tableLectores.getModel();
+        m_LectorNegocio.eliminarLector(Integer.parseInt(lectoresUpdated.getValueAt(fila, 0).toString()));
+        lectoresUpdated.removeRow(fila);
+        textCi.setText("");
+        textApellidos.setText("");
+        textNombres.setText("");
+        textDireccion.setText("");
+        textFechaNacimiento.setText("");
+        textFechaAfiliacion.setText("");
+        textTelefono.setText("");
+    }
+
+    public void inicializar() {
+        cargarComboSexo();
+        obtenerLectores();
+    }
+
+    public void modificarLector() {
+        String[] tableHeader = new String[]{"id", "ci", "apellidos", "nombres", "direccion", "fecha_nacimiento", "sexo", "telefono", "fecha_afiliacion", "id_persona"};
+        String[] dateString = textFechaNacimiento.getText().split("-");
+        Date date = Date.valueOf(dateString[0] +"-"+ dateString[1] +"-"+ dateString[2]);
+        String[] dateString2 = textFechaNacimiento.getText().split("-");
+        Date date2 = Date.valueOf(dateString2[0] +"-"+ dateString2[1] +"-"+ dateString2[2]);
+        DefaultTableModel lectoresUpdated = (DefaultTableModel) tableLectores.getModel();
+        int fila = tableLectores.getSelectedRow();
+        m_LectorNegocio.modificarLector(
+                Integer.parseInt(lectoresUpdated.getValueAt(fila, Arrays.asList(tableHeader).indexOf("id")).toString()),
+                Integer.parseInt(textCi.getText()),
+                textApellidos.getText(),
+                textNombres.getText(),
+                textDireccion.getText(),
+                date,
+                String.valueOf(comboSexo.getSelectedItem()).charAt(0),
+                Integer.parseInt(textTelefono.getText()),
+                date2,
+                Integer.parseInt(lectoresUpdated.getValueAt(fila, Arrays.asList(tableHeader).indexOf("id_persona")).toString()));
+        lectoresUpdated.setValueAt(textCi.getText(), fila, Arrays.asList(tableHeader).indexOf("ci"));
+        lectoresUpdated.setValueAt(textApellidos.getText(), fila, Arrays.asList(tableHeader).indexOf("apellidos"));
+        lectoresUpdated.setValueAt(textNombres.getText(), fila, Arrays.asList(tableHeader).indexOf("nombres"));
+        lectoresUpdated.setValueAt(textDireccion.getText(), fila, Arrays.asList(tableHeader).indexOf("direccion"));
+        lectoresUpdated.setValueAt(textFechaNacimiento.getText(), fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento"));
+        lectoresUpdated.setValueAt(String.valueOf(comboSexo.getSelectedItem()).charAt(0), fila, Arrays.asList(tableHeader).indexOf("sexo"));
+        lectoresUpdated.setValueAt(textTelefono.getText(), fila, Arrays.asList(tableHeader).indexOf("telefono"));
+        lectoresUpdated.setValueAt(textFechaAfiliacion.getText(), fila, Arrays.asList(tableHeader).indexOf("fecha_afiliacion"));
+    }
+
+    public void obtenerLectores() {
+        DefaultTableModel lectores = m_LectorNegocio.obtenerLectores();
+        tableLectores.setModel(lectores);
+        tableLectores.removeColumn(tableLectores.getColumn("direccion"));
+        tableLectores.removeColumn(tableLectores.getColumn("fecha_nacimiento"));
+        tableLectores.removeColumn(tableLectores.getColumn("sexo"));
+        tableLectores.removeColumn(tableLectores.getColumn("telefono"));
+        tableLectores.removeColumn(tableLectores.getColumn("fecha_afiliacion"));
+        tableLectores.removeColumn(tableLectores.getColumn("id_persona"));
+    }
+
+    public void registrarLector() {
+        String[] dateString = textFechaNacimiento.getText().split("-");
+        Date date = Date.valueOf(dateString[0] +"-"+ dateString[1] +"-"+ dateString[2]);
+        String[] dateString2 = textFechaAfiliacion.getText().split("-");
+        Date date2 = Date.valueOf(dateString2[0] +"-"+ dateString2[1] +"-"+ dateString2[2]);
+        int id = m_LectorNegocio.registrarLector(
+                Integer.parseInt(textCi.getText()),
+                textApellidos.getText(),
+                textNombres.getText(),
+                textDireccion.getText(),
+                date,
+                String.valueOf(comboSexo.getSelectedItem()).charAt(0),
+                Integer.parseInt(textTelefono.getText()),
+                date2);
+        DefaultTableModel lectoresUpdated = (DefaultTableModel) tableLectores.getModel();
+        lectoresUpdated.addRow(new Object[]{
+            id,
+            Integer.parseInt(textCi.getText()),
+            textApellidos.getText(),
+            textNombres.getText(),
+            textDireccion.getText(),
+            date,
+            String.valueOf(comboSexo.getSelectedItem()).charAt(0),
+            Integer.parseInt(textTelefono.getText()),
+            date2,
+            0
+        });
     }
 
     /**
@@ -82,13 +184,33 @@ public class LectorFrm extends javax.swing.JFrame {
                 "Id", "Apellidos", "Nombres", "CI"
             }
         ));
+        tableLectores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableLectoresMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableLectores);
 
         buttonRegistrar.setText("Registrar");
+        buttonRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRegistrarActionPerformed(evt);
+            }
+        });
 
         buttonModificar.setText("Modificar");
+        buttonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonModificarActionPerformed(evt);
+            }
+        });
 
         buttonEliminar.setText("Eliminar");
+        buttonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -180,6 +302,32 @@ public class LectorFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarActionPerformed
+        registrarLector();
+    }//GEN-LAST:event_buttonRegistrarActionPerformed
+
+    private void tableLectoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableLectoresMouseClicked
+        int fila = tableLectores.getSelectedRow();
+        String[] tableHeader = new String[]{"id", "ci", "apellidos", "nombres", "direccion", "fecha_nacimiento", "sexo", "telefono", "fecha_afiliacion", "id_persona"};
+        DefaultTableModel lectores = (DefaultTableModel) tableLectores.getModel();
+        textCi.setText(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("ci"))));
+        textApellidos.setText(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("apellidos"))));
+        textNombres.setText(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("nombres"))));
+        textDireccion.setText(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("direccion"))));
+        textFechaNacimiento.setText(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento"))));
+        textTelefono.setText(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("telefono"))));
+        textFechaAfiliacion.setText(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_afiliacion"))));
+        comboSexo.setSelectedItem(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("sexo"))));
+    }//GEN-LAST:event_tableLectoresMouseClicked
+
+    private void buttonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModificarActionPerformed
+        modificarLector();
+    }//GEN-LAST:event_buttonModificarActionPerformed
+
+    private void buttonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarActionPerformed
+        eliminarLector();
+    }//GEN-LAST:event_buttonEliminarActionPerformed
 
     /**
      * @param args the command line arguments
