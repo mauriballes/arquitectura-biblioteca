@@ -8,10 +8,6 @@ package Presentacion.PAdministrarPrestamos;
 import Negocio.NAdministrarPrestamos.BibliotecarioNegocio;
 import java.util.Arrays;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
