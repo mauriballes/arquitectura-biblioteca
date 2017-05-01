@@ -5,6 +5,10 @@
  */
 package Presentacion.PAdministrarLibros;
 
+import Negocio.NAdministrarLibros.AutorNegocio;
+import java.util.Arrays;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author mauriballes
@@ -14,10 +18,56 @@ public class AutorFrm extends javax.swing.JFrame {
     /**
      * Creates new form AutorFrm
      */
+    private AutorNegocio m_AutorNegocio;
+    
     public AutorFrm() {
         initComponents();
         this.setTitle("Gestionar Autor");
         this.setLocationRelativeTo(null);
+        m_AutorNegocio = new AutorNegocio();
+        inicializar();
+    }
+    
+    public void eliminarAutores() {
+        int fila = tableAutores.getSelectedRow();
+        DefaultTableModel autoresUpdated = (DefaultTableModel) tableAutores.getModel();
+        m_AutorNegocio.eliminarAutor(Integer.parseInt(autoresUpdated.getValueAt(fila, 0).toString()));
+        autoresUpdated.removeRow(fila);
+        textNombre.setText("");
+        textPaisOrigen.setText("");
+    }
+    
+    public void inicializar() {
+        obtenerAutores();
+    }
+    
+    public void modificarAutores() {
+        String[] tableHeader = new String[]{"id", "nombre", "pais_origen"};
+        int fila = tableAutores.getSelectedRow();
+        DefaultTableModel autoresUpdated = (DefaultTableModel) tableAutores.getModel();
+        m_AutorNegocio.modificarAutor(
+                Integer.parseInt(autoresUpdated.getValueAt(fila, Arrays.asList(tableHeader).indexOf("id")).toString()),
+                textNombre.getText(),
+                textPaisOrigen.getText());
+        autoresUpdated.setValueAt(textNombre.getText(), fila, Arrays.asList(tableHeader).indexOf("nombre"));
+        autoresUpdated.setValueAt(textPaisOrigen.getText(), fila, Arrays.asList(tableHeader).indexOf("pais_origen"));
+    }
+    
+    public void obtenerAutores() {
+        DefaultTableModel autores = m_AutorNegocio.obtenerAutores();
+        tableAutores.setModel(autores);
+    }
+    
+    public void registrarAutores() {
+        int id = m_AutorNegocio.registrarAutor(
+                textNombre.getText(),
+                textPaisOrigen.getText());
+        DefaultTableModel autoresUpdated = (DefaultTableModel) tableAutores.getModel();
+        autoresUpdated.addRow(new Object[]{
+            id,
+            textNombre.getText(),
+            textPaisOrigen.getText()
+        });
     }
 
     /**
@@ -56,13 +106,33 @@ public class AutorFrm extends javax.swing.JFrame {
                 "Id", "Nombre", "Pais de Origen"
             }
         ));
+        tableAutores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableAutoresMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableAutores);
 
         buttonRegistrar.setText("Registrar");
+        buttonRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRegistrarActionPerformed(evt);
+            }
+        });
 
         buttonModificar.setText("Modificar");
+        buttonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonModificarActionPerformed(evt);
+            }
+        });
 
         buttonEliminar.setText("Eliminar");
+        buttonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,6 +186,26 @@ public class AutorFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarActionPerformed
+        registrarAutores();
+    }//GEN-LAST:event_buttonRegistrarActionPerformed
+
+    private void tableAutoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAutoresMouseClicked
+        int fila = tableAutores.getSelectedRow();
+        String[] tableHeader = new String[]{"id", "nombre", "pais_origen"};
+        DefaultTableModel autores = (DefaultTableModel) tableAutores.getModel();
+        textNombre.setText(String.valueOf(autores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("nombre"))));
+        textPaisOrigen.setText(String.valueOf(autores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("pais_origen"))));
+    }//GEN-LAST:event_tableAutoresMouseClicked
+
+    private void buttonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModificarActionPerformed
+        modificarAutores();
+    }//GEN-LAST:event_buttonModificarActionPerformed
+
+    private void buttonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarActionPerformed
+        eliminarAutores();
+    }//GEN-LAST:event_buttonEliminarActionPerformed
 
     /**
      * @param args the command line arguments
