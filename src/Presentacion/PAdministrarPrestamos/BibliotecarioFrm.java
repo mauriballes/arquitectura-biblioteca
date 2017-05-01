@@ -5,6 +5,16 @@
  */
 package Presentacion.PAdministrarPrestamos;
 
+import Negocio.NAdministrarPrestamos.BibliotecarioNegocio;
+import java.util.Arrays;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author mauriballes
@@ -14,10 +24,102 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
     /**
      * Creates new form BibliotecarioFrm
      */
+    private BibliotecarioNegocio m_BibliotecarioNegocio;
+
     public BibliotecarioFrm() {
         initComponents();
         this.setTitle("Gestionar Bibliotecario");
         this.setLocationRelativeTo(null);
+        m_BibliotecarioNegocio = new BibliotecarioNegocio();
+        inicializar();
+    }
+
+    public void cargarComboSexo() {
+        comboSexo.setModel(new DefaultComboBoxModel(new Object[]{"M", "F"}));
+    }
+
+    public void eliminarBibliotecario() {
+        int fila = tableBibliotecarios.getSelectedRow();
+        DefaultTableModel bibliotecariosUpdated = (DefaultTableModel) tableBibliotecarios.getModel();
+        m_BibliotecarioNegocio.eliminarBibliotecario(Integer.parseInt(bibliotecariosUpdated.getValueAt(fila, 0).toString()));
+        bibliotecariosUpdated.removeRow(fila);
+        textCi.setText("");
+        textApellidos.setText("");
+        textNombres.setText("");
+        textDireccion.setText("");
+        textFechaNacimiento.setText("");
+        textAnoContratacion.setText("");
+        textTelefono.setText("");
+    }
+
+    public void inicializar() {
+        cargarComboSexo();
+        obtenerBibliotecarios();
+    }
+
+    public void modificarBibliotecario() {
+        String[] tableHeader = new String[]{"id", "ci", "apellidos", "nombres", "direccion", "fecha_nacimiento", "sexo", "telefono", "ano_contratacion", "id_persona"};
+        String[] dateString = textFechaNacimiento.getText().split("-");
+        Date date = Date.valueOf(dateString[0] +"-"+ dateString[1] +"-"+ dateString[2]);
+        DefaultTableModel bibliotecariosUpdated = (DefaultTableModel) tableBibliotecarios.getModel();
+        int fila = tableBibliotecarios.getSelectedRow();
+        m_BibliotecarioNegocio.modificarBibliotecario(
+                Integer.parseInt(bibliotecariosUpdated.getValueAt(fila, Arrays.asList(tableHeader).indexOf("id")).toString()),
+                Integer.parseInt(textCi.getText()),
+                textApellidos.getText(),
+                textNombres.getText(),
+                textDireccion.getText(),
+                date,
+                String.valueOf(comboSexo.getSelectedItem()).charAt(0),
+                Integer.parseInt(textTelefono.getText()),
+                Integer.parseInt(textAnoContratacion.getText()),
+                Integer.parseInt(bibliotecariosUpdated.getValueAt(fila, Arrays.asList(tableHeader).indexOf("id_persona")).toString()));
+        bibliotecariosUpdated.setValueAt(textCi.getText(), fila, Arrays.asList(tableHeader).indexOf("ci"));
+        bibliotecariosUpdated.setValueAt(textApellidos.getText(), fila, Arrays.asList(tableHeader).indexOf("apellidos"));
+        bibliotecariosUpdated.setValueAt(textNombres.getText(), fila, Arrays.asList(tableHeader).indexOf("nombres"));
+        bibliotecariosUpdated.setValueAt(textDireccion.getText(), fila, Arrays.asList(tableHeader).indexOf("direccion"));
+        bibliotecariosUpdated.setValueAt(textFechaNacimiento.getText(), fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento"));
+        bibliotecariosUpdated.setValueAt(String.valueOf(comboSexo.getSelectedItem()).charAt(0), fila, Arrays.asList(tableHeader).indexOf("sexo"));
+        bibliotecariosUpdated.setValueAt(textTelefono.getText(), fila, Arrays.asList(tableHeader).indexOf("telefono"));
+        bibliotecariosUpdated.setValueAt(textAnoContratacion.getText(), fila, Arrays.asList(tableHeader).indexOf("ano_contratacion"));
+    }
+
+    public void obtenerBibliotecarios() {
+        DefaultTableModel bibliotrecarios = m_BibliotecarioNegocio.obtenerBibliotecarios();
+        tableBibliotecarios.setModel(bibliotrecarios);
+        tableBibliotecarios.removeColumn(tableBibliotecarios.getColumn("direccion"));
+        tableBibliotecarios.removeColumn(tableBibliotecarios.getColumn("fecha_nacimiento"));
+        tableBibliotecarios.removeColumn(tableBibliotecarios.getColumn("sexo"));
+        tableBibliotecarios.removeColumn(tableBibliotecarios.getColumn("telefono"));
+        tableBibliotecarios.removeColumn(tableBibliotecarios.getColumn("ano_contratacion"));
+        tableBibliotecarios.removeColumn(tableBibliotecarios.getColumn("id_persona"));
+    }
+
+    public void registrarBibliotecario() {
+        String[] dateString = textFechaNacimiento.getText().split("-");
+        Date date = Date.valueOf(dateString[0] +"-"+ dateString[1] +"-"+ dateString[2]);
+        int id = m_BibliotecarioNegocio.registrarBibliotecario(
+                Integer.parseInt(textCi.getText()),
+                textApellidos.getText(),
+                textNombres.getText(),
+                textDireccion.getText(),
+                date,
+                String.valueOf(comboSexo.getSelectedItem()).charAt(0),
+                Integer.parseInt(textTelefono.getText()),
+                Integer.parseInt(textAnoContratacion.getText()));
+        DefaultTableModel bibliotecariosUpdated = (DefaultTableModel) tableBibliotecarios.getModel();
+        bibliotecariosUpdated.addRow(new Object[]{
+            id,
+            Integer.parseInt(textCi.getText()),
+            textApellidos.getText(),
+            textNombres.getText(),
+            textDireccion.getText(),
+            date,
+            String.valueOf(comboSexo.getSelectedItem()).charAt(0),
+            Integer.parseInt(textTelefono.getText()),
+            Integer.parseInt(textAnoContratacion.getText()),
+            0
+        });
     }
 
     /**
@@ -82,13 +184,33 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
                 "Id", "Apellidos", "Nombres", "CI"
             }
         ));
+        tableBibliotecarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableBibliotecariosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableBibliotecarios);
 
         buttonRegistrar.setText("Registrar");
+        buttonRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRegistrarActionPerformed(evt);
+            }
+        });
 
         buttonModificar.setText("Modificar");
+        buttonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonModificarActionPerformed(evt);
+            }
+        });
 
         buttonEliminar.setText("Eliminar");
+        buttonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,6 +303,32 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarActionPerformed
+        registrarBibliotecario();
+    }//GEN-LAST:event_buttonRegistrarActionPerformed
+
+    private void tableBibliotecariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBibliotecariosMouseClicked
+        int fila = tableBibliotecarios.getSelectedRow();
+        String[] tableHeader = new String[]{"id", "ci", "apellidos", "nombres", "direccion", "fecha_nacimiento", "sexo", "telefono", "ano_contratacion", "id_persona"};
+        DefaultTableModel bibliotecarios = (DefaultTableModel) tableBibliotecarios.getModel();
+        textCi.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("ci"))));
+        textApellidos.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("apellidos"))));
+        textNombres.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("nombres"))));
+        textDireccion.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("direccion"))));
+        textFechaNacimiento.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento"))));
+        textTelefono.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("telefono"))));
+        textAnoContratacion.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("ano_contratacion"))));
+        comboSexo.setSelectedItem(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("sexo"))));
+    }//GEN-LAST:event_tableBibliotecariosMouseClicked
+
+    private void buttonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModificarActionPerformed
+        modificarBibliotecario();
+    }//GEN-LAST:event_buttonModificarActionPerformed
+
+    private void buttonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarActionPerformed
+        eliminarBibliotecario();
+    }//GEN-LAST:event_buttonEliminarActionPerformed
 
     /**
      * @param args the command line arguments
