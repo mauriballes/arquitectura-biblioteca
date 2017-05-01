@@ -127,7 +127,7 @@ public class Bibliotecario {
                     ps2.setInt(2, idPersona);
                     rows = ps2.executeUpdate();
                     if (rows != 0) {
-                        generateKeys = ps.getGeneratedKeys();
+                        generateKeys = ps2.getGeneratedKeys();
                         if (generateKeys.next()) {
                             return generateKeys.getInt(1);
                         }
