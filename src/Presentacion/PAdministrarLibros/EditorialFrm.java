@@ -5,6 +5,10 @@
  */
 package Presentacion.PAdministrarLibros;
 
+import Negocio.NAdministrarLibros.EditorialNegocio;
+import java.util.Arrays;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author mauriballes
@@ -14,10 +18,61 @@ public class EditorialFrm extends javax.swing.JFrame {
     /**
      * Creates new form EditorialFrm
      */
+    private EditorialNegocio m_EditorialNegocio;
+
     public EditorialFrm() {
         initComponents();
         this.setTitle("Gestionar Editorial");
         this.setLocationRelativeTo(null);
+        m_EditorialNegocio = new EditorialNegocio();
+        inicializar();
+    }
+
+    public void eliminarEditorial() {
+        int fila = tableEditoriales.getSelectedRow();
+        DefaultTableModel editorialesUpdated = (DefaultTableModel) tableEditoriales.getModel();
+        m_EditorialNegocio.eliminarEditorial(Integer.parseInt(editorialesUpdated.getValueAt(fila, 0).toString()));
+        editorialesUpdated.removeRow(fila);
+        textNombre.setText("");
+        textDireccion.setText("");
+        textTelefono.setText("");
+    }
+
+    public void inicializar() {
+        obtenerEditoriales();
+    }
+
+    public void modificarEditorial() {
+        String[] tableHeader = new String[]{"id", "nombre", "telefono", "direccion"};
+        int fila = tableEditoriales.getSelectedRow();
+        DefaultTableModel editorialesUpdated = (DefaultTableModel) tableEditoriales.getModel();
+        m_EditorialNegocio.modificarEditorial(
+                Integer.parseInt(editorialesUpdated.getValueAt(fila, Arrays.asList(tableHeader).indexOf("id")).toString()),
+                textNombre.getText(),
+                textDireccion.getText(),
+                Integer.parseInt(textTelefono.getText()));
+        editorialesUpdated.setValueAt(textNombre.getText(), fila, Arrays.asList(tableHeader).indexOf("nombre"));
+        editorialesUpdated.setValueAt(textDireccion.getText(), fila, Arrays.asList(tableHeader).indexOf("direccion"));
+        editorialesUpdated.setValueAt(textTelefono.getText(), fila, Arrays.asList(tableHeader).indexOf("telefono"));
+    }
+
+    public void obtenerEditoriales() {
+        DefaultTableModel editoriales = m_EditorialNegocio.obtenerEditoriales();
+        tableEditoriales.setModel(editoriales);
+    }
+
+    public void registrarEditorial() {
+        int id = m_EditorialNegocio.registrarEditorial(
+                textNombre.getText(),
+                textDireccion.getText(),
+                Integer.parseInt(textTelefono.getText()));
+        DefaultTableModel editorialesUpdted = (DefaultTableModel) tableEditoriales.getModel();
+        editorialesUpdted.addRow(new Object[]{
+            id,
+            textNombre.getText(),
+            textTelefono.getText(),
+            textDireccion.getText()
+        });
     }
 
     /**
@@ -44,10 +99,25 @@ public class EditorialFrm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         buttonRegistrar.setText("Registrar");
+        buttonRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRegistrarActionPerformed(evt);
+            }
+        });
 
         buttonModificar.setText("Modificar");
+        buttonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonModificarActionPerformed(evt);
+            }
+        });
 
         buttonEliminar.setText("Eliminar");
+        buttonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEliminarActionPerformed(evt);
+            }
+        });
 
         labelNombre.setText("Nombre");
 
@@ -61,9 +131,14 @@ public class EditorialFrm extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Id", "Nombre", "Telefono", "Descripcion"
+                "Id", "Nombre", "Telefono", "Direccion"
             }
         ));
+        tableEditoriales.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableEditorialesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableEditoriales);
 
         labelTelefono.setText("Telefono");
@@ -125,6 +200,27 @@ public class EditorialFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarActionPerformed
+        registrarEditorial();
+    }//GEN-LAST:event_buttonRegistrarActionPerformed
+
+    private void tableEditorialesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEditorialesMouseClicked
+        int fila = tableEditoriales.getSelectedRow();
+        String[] tableHeader = new String[]{"id", "nombre", "telefono", "direccion"};
+        DefaultTableModel editores = (DefaultTableModel) tableEditoriales.getModel();
+        textNombre.setText(String.valueOf(editores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("nombre"))));
+        textDireccion.setText(String.valueOf(editores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("direccion"))));
+        textTelefono.setText(String.valueOf(editores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("telefono"))));
+    }//GEN-LAST:event_tableEditorialesMouseClicked
+
+    private void buttonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModificarActionPerformed
+        modificarEditorial();
+    }//GEN-LAST:event_buttonModificarActionPerformed
+
+    private void buttonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarActionPerformed
+        eliminarEditorial();
+    }//GEN-LAST:event_buttonEliminarActionPerformed
 
     /**
      * @param args the command line arguments
