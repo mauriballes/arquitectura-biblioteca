@@ -5,6 +5,11 @@
  */
 package Presentacion.PAdministrarPrestamos;
 
+import Negocio.NAdministrarLibros.LibroNegocio;
+import Negocio.NAdministrarPrestamos.BibliotecarioNegocio;
+import Negocio.NAdministrarPrestamos.FichaPrestamoNegocio;
+import Negocio.NAdministrarPrestamos.LectorNegocio;
+
 /**
  *
  * @author mauriballes
@@ -14,10 +19,56 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
     /**
      * Creates new form FichaPrestamoFrm
      */
+    private FichaPrestamoNegocio m_FichaPrestamoNegocio;
+    private BibliotecarioNegocio m_BibliotecarioNegocio;
+    private LectorNegocio m_LectorNegocio;
+    private LibroNegocio m_LibroNegocio;
+
     public FichaPrestamoFrm() {
         initComponents();
         this.setTitle("Gestionar Ficha de Prestamo");
         this.setLocationRelativeTo(null);
+        m_BibliotecarioNegocio = new BibliotecarioNegocio();
+        m_LectorNegocio = new LectorNegocio();
+        m_LibroNegocio = new LibroNegocio();
+        m_FichaPrestamoNegocio = new FichaPrestamoNegocio();
+        inicializar();
+    }
+
+    public void cargarComboEjemplares() {
+
+    }
+
+    public void cargarTablaBibliotecario() {
+
+    }
+
+    public void cargarTablaLector() {
+
+    }
+
+    public void cargarTablaLibro() {
+
+    }
+
+    public void concretarDevolucion() {
+
+    }
+
+    public void inicializar() {
+
+    }
+
+    public void obtenerDetallePrestamo() {
+
+    }
+
+    public void obtenerPrestamos() {
+
+    }
+
+    public void registrarPrestamo() {
+
     }
 
     /**

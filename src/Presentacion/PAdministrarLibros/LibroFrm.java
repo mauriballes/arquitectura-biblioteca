@@ -5,6 +5,14 @@
  */
 package Presentacion.PAdministrarLibros;
 
+import Negocio.NAdministrarLibros.AutorNegocio;
+import Negocio.NAdministrarLibros.CategoriaNegocio;
+import Negocio.NAdministrarLibros.EditorialNegocio;
+import Negocio.NAdministrarLibros.LibroNegocio;
+import java.sql.Date;
+import java.util.LinkedList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author mauriballes
@@ -14,10 +22,102 @@ public class LibroFrm extends javax.swing.JFrame {
     /**
      * Creates new form LibroFrm
      */
+    private LibroNegocio m_LibroNegocio;
+    private EditorialNegocio m_EditorialNegocio;
+    private CategoriaNegocio m_CategoriaNegocio;
+    private AutorNegocio m_AutorNegocio;
+
     public LibroFrm() {
         initComponents();
         this.setTitle("Gestionar Libro");
         this.setLocationRelativeTo(null);
+        m_LibroNegocio = new LibroNegocio();
+        m_AutorNegocio = new AutorNegocio();
+        m_CategoriaNegocio = new CategoriaNegocio();
+        m_EditorialNegocio = new EditorialNegocio();
+        inicializar();
+    }
+
+    public void cargarTablaAutores() {
+        DefaultTableModel autores = m_AutorNegocio.obtenerAutores();
+        tableAutores.setModel(autores);
+    }
+
+    public void cargarTablaCategoria() {
+        DefaultTableModel categorias = m_CategoriaNegocio.obtenerCategorias();
+        tableCategoria.setModel(categorias);
+        tableCategoria.removeColumn(tableCategoria.getColumn("descripcion"));
+    }
+
+    public void cargarTablaEditorial() {
+        DefaultTableModel editoriales = m_EditorialNegocio.obtenerEditoriales();
+        tableEditorial.setModel(editoriales);
+        tableEditorial.removeColumn(tableEditorial.getColumn("telefono"));
+        tableEditorial.removeColumn(tableEditorial.getColumn("direccion"));
+    }
+
+    public void eliminarLibro() {
+
+    }
+
+    public void inicializar() {
+        cargarTablaEditorial();
+        cargarTablaAutores();
+        cargarTablaCategoria();
+        obtenerLibros();
+    }
+
+    public void modificarLibro() {
+
+    }
+
+    public void obtenerLibros() {
+        DefaultTableModel libros = m_LibroNegocio.obtenerLibros();
+        tableLibros.setModel(libros);
+        tableLibros.removeColumn(tableLibros.getColumn("isbn"));
+        tableLibros.removeColumn(tableLibros.getColumn("paginas"));
+        tableLibros.removeColumn(tableLibros.getColumn("fecha_lanzamiento"));
+        tableLibros.removeColumn(tableLibros.getColumn("idioma"));
+        tableLibros.removeColumn(tableLibros.getColumn("edicion"));
+        tableLibros.removeColumn(tableLibros.getColumn("nro_ejemplares"));
+        tableLibros.removeColumn(tableLibros.getColumn("id_categoria"));
+        tableLibros.removeColumn(tableLibros.getColumn("id_editorial"));
+        tableLibros.removeColumn(tableLibros.getColumn("ids_autores"));
+    }
+
+    public void registrarLibro() {
+        String[] dateString = textFechaLanzamiento.getText().split("-");
+        Date date = Date.valueOf(dateString[0] +"-"+ dateString[1] +"-"+ dateString[2]);
+        LinkedList<Integer> autores = new LinkedList<>();
+        int[] autoresSelected = tableAutores.getSelectedRows();
+        for (int i = 0; i < autoresSelected.length; i++) {
+            autores.add((Integer) tableAutores.getValueAt(autoresSelected[i], 0));
+        }
+        int id = m_LibroNegocio.registrarLibro(
+                textTitulo.getText(),
+                textIsbn.getText(),
+                textDescripcion.getText(),
+                Integer.parseInt(textPaginas.getText()),
+                Integer.parseInt(textEdicion.getText()),
+                date,
+                textIdioma.getText(),
+                Integer.parseInt((String) spinnerEjemplares.getValue()),
+                Integer.parseInt((String) tableCategoria.getValueAt(tableCategoria.getSelectedRow(), 0)),
+                Integer.parseInt((String) tableEditorial.getValueAt(tableEditorial.getSelectedRow(), 0)),
+                autores);
+//        DefaultTableModel bibliotecariosUpdated = (DefaultTableModel) tableBibliotecarios.getModel();
+//        bibliotecariosUpdated.addRow(new Object[]{
+//            id,
+//            Integer.parseInt(textCi.getText()),
+//            textApellidos.getText(),
+//            textNombres.getText(),
+//            textDireccion.getText(),
+//            date,
+//            String.valueOf(comboSexo.getSelectedItem()).charAt(0),
+//            Integer.parseInt(textTelefono.getText()),
+//            Integer.parseInt(textAnoContratacion.getText()),
+//            0
+//        });
     }
 
     /**
@@ -44,7 +144,7 @@ public class LibroFrm extends javax.swing.JFrame {
         labelEjemplares = new javax.swing.JLabel();
         spinnerEjemplares = new javax.swing.JSpinner();
         labelDescripcion = new javax.swing.JLabel();
-        textFechaLanzamiento1 = new javax.swing.JTextField();
+        textDescripcion = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableLibros = new javax.swing.JTable();
         buttonRegistrar = new javax.swing.JButton();
@@ -92,6 +192,11 @@ public class LibroFrm extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tableLibros);
 
         buttonRegistrar.setText("Registrar");
+        buttonRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRegistrarActionPerformed(evt);
+            }
+        });
 
         buttonModificar.setText("Modificar");
 
@@ -134,6 +239,7 @@ public class LibroFrm extends javax.swing.JFrame {
                 "Id", "Nombre", "Pais Origen"
             }
         ));
+        tableAutores.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jScrollPane4.setViewportView(tableAutores);
 
         labelEditorial.setText("Editorial");
@@ -196,7 +302,7 @@ public class LibroFrm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(labelDescripcion)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textFechaLanzamiento1))
+                        .addComponent(textDescripcion))
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(buttonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -255,7 +361,7 @@ public class LibroFrm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelDescripcion)
-                    .addComponent(textFechaLanzamiento1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonRegistrar)
@@ -268,6 +374,10 @@ public class LibroFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarActionPerformed
+        registrarLibro();
+    }//GEN-LAST:event_buttonRegistrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -328,9 +438,9 @@ public class LibroFrm extends javax.swing.JFrame {
     private javax.swing.JTable tableCategoria;
     private javax.swing.JTable tableEditorial;
     private javax.swing.JTable tableLibros;
+    private javax.swing.JTextField textDescripcion;
     private javax.swing.JTextField textEdicion;
     private javax.swing.JTextField textFechaLanzamiento;
-    private javax.swing.JTextField textFechaLanzamiento1;
     private javax.swing.JTextField textIdioma;
     private javax.swing.JTextField textIsbn;
     private javax.swing.JTextField textPaginas;
