@@ -18,7 +18,7 @@ public class Conexion {
     private static Conexion conexionSingleton;
     private Connection connection;
 
-    public Conexion() {
+    private Conexion() {
         this.abrirConexion();
     }
 
