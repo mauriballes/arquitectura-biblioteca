@@ -29,19 +29,20 @@ public class FichaPrestamoNegocio {
      * @param id
      */
     public void concretarPrestamo(int id) {
-
+        m_FichaPrestamo.concretarDevolucion(id);
     }
 
     /**
      *
      * @param id
+     * @return
      */
     public DefaultTableModel obtenerDetallePrestamo(int id) {
-        return null;
+        return m_DetallePrestamoNegocio.obtenerDetallePrestamo(id);
     }
 
     public DefaultTableModel obtenerPrestamos() {
-        return null;
+        return m_FichaPrestamo.getPrestamos();
     }
 
     /**
@@ -52,8 +53,12 @@ public class FichaPrestamoNegocio {
      * @param id_bibliotecario
      * @param ids_libros
      * @param nros_ejemplares
+     * @return
      */
     public int registrarPrestamo(Date fecha_prestamo, Date fecha_devolucion, int id_lector, int id_bibliotecario, LinkedList<Integer> ids_libros, LinkedList<Integer> nros_ejemplares) {
-        return 0;
+        m_FichaPrestamo.setPrestamo(fecha_prestamo, fecha_devolucion, id_lector, id_bibliotecario);
+        int id = m_FichaPrestamo.registrarPrestamo();
+        m_DetallePrestamoNegocio.registrarDetallePrestamo(id, ids_libros, nros_ejemplares);
+        return id;
     }
 }

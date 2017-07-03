@@ -48,7 +48,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="labelFechaDevolucion" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="textFechaPrestamo1" min="-2" pref="132" max="-2" attributes="0"/>
+                      <Component id="textFechaDevolucion" min="-2" pref="132" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -94,7 +94,7 @@
                   <Component id="labelFechaPrestamo" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="textFechaPrestamo" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="labelFechaDevolucion" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="textFechaPrestamo1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textFechaDevolucion" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -141,7 +141,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="textFechaPrestamo">
     </Component>
-    <Component class="javax.swing.JTextField" name="textFechaPrestamo1">
+    <Component class="javax.swing.JTextField" name="textFechaDevolucion">
     </Component>
     <Component class="javax.swing.JLabel" name="labelFechaDevolucion">
       <Properties>
@@ -181,6 +181,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tableLibrosMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -295,21 +298,33 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Agregar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonAgregarEjemplarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="buttonRegistrar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Registrar Prestamo"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonRegistrarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="buttonObtener">
       <Properties>
         <Property name="text" type="java.lang.String" value="Obtener Detalle"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonObtenerActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="buttonConcretar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Concretar Devolucion"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonConcretarActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane4">
       <AuxValues>

@@ -5,10 +5,13 @@
  */
 package Presentacion.PAdministrarPrestamos;
 
-import Negocio.NAdministrarLibros.LibroNegocio;
-import Negocio.NAdministrarPrestamos.BibliotecarioNegocio;
+import Negocio.NAdministrarPrestamos.FichaPrestamoFacade;
 import Negocio.NAdministrarPrestamos.FichaPrestamoNegocio;
-import Negocio.NAdministrarPrestamos.LectorNegocio;
+import java.sql.Date;
+import java.util.Arrays;
+import java.util.LinkedList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,56 +22,132 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
     /**
      * Creates new form FichaPrestamoFrm
      */
-    private FichaPrestamoNegocio m_FichaPrestamoNegocio;
-    private BibliotecarioNegocio m_BibliotecarioNegocio;
-    private LectorNegocio m_LectorNegocio;
-    private LibroNegocio m_LibroNegocio;
-
+    public FichaPrestamoNegocio m_FichaPrestamoNegocio;
+    public FichaPrestamoFacade m_FichaPrestamoFacade;
+    
     public FichaPrestamoFrm() {
         initComponents();
         this.setTitle("Gestionar Ficha de Prestamo");
         this.setLocationRelativeTo(null);
-        m_BibliotecarioNegocio = new BibliotecarioNegocio();
-        m_LectorNegocio = new LectorNegocio();
-        m_LibroNegocio = new LibroNegocio();
+        DefaultTableModel model = new DefaultTableModel();
+        model.setColumnIdentifiers(new Object[]{"Id", "Libro", "NroEjemplar"});
+        tableDetallePrestamos.setModel(model);
         m_FichaPrestamoNegocio = new FichaPrestamoNegocio();
+        m_FichaPrestamoFacade = new FichaPrestamoFacade();
         inicializar();
     }
-
+    
     public void cargarComboEjemplares() {
-
+        int len = 8;
+        Object v[] = new Object[len];
+        for (int i = 0; i < len; i++) {
+            v[i] = i + 1;
+        }
+        comboEjemplar.setModel(new DefaultComboBoxModel(v));
     }
-
+    
     public void cargarTablaBibliotecario() {
-
+        DefaultTableModel bibiliotecarios = m_FichaPrestamoFacade.obtenerBibliotecarios();
+        tableBibliotecario.setModel(bibiliotecarios);
+        tableBibliotecario.removeColumn(tableBibliotecario.getColumn("ci"));
+        tableBibliotecario.removeColumn(tableBibliotecario.getColumn("direccion"));
+        tableBibliotecario.removeColumn(tableBibliotecario.getColumn("fecha_nacimiento"));
+        tableBibliotecario.removeColumn(tableBibliotecario.getColumn("sexo"));
+        tableBibliotecario.removeColumn(tableBibliotecario.getColumn("telefono"));
+        tableBibliotecario.removeColumn(tableBibliotecario.getColumn("ano_contratacion"));
+        tableBibliotecario.removeColumn(tableBibliotecario.getColumn("id_persona"));
     }
-
+    
     public void cargarTablaLector() {
-
+        DefaultTableModel lectores = m_FichaPrestamoFacade.obtenerLectores();
+        tableLectores.setModel(lectores);
+        tableLectores.removeColumn(tableLectores.getColumn("ci"));
+        tableLectores.removeColumn(tableLectores.getColumn("direccion"));
+        tableLectores.removeColumn(tableLectores.getColumn("fecha_nacimiento"));
+        tableLectores.removeColumn(tableLectores.getColumn("sexo"));
+        tableLectores.removeColumn(tableLectores.getColumn("telefono"));
+        tableLectores.removeColumn(tableLectores.getColumn("fecha_afiliacion"));
+        tableLectores.removeColumn(tableLectores.getColumn("id_persona"));
     }
-
+    
     public void cargarTablaLibro() {
-
+        DefaultTableModel libros = m_FichaPrestamoFacade.obtenerLibros();
+        tableLibros.setModel(libros);
+        tableLibros.removeColumn(tableLibros.getColumn("isbn"));
+        tableLibros.removeColumn(tableLibros.getColumn("descripcion"));
+        tableLibros.removeColumn(tableLibros.getColumn("paginas"));
+        tableLibros.removeColumn(tableLibros.getColumn("fecha_lanzamiento"));
+        tableLibros.removeColumn(tableLibros.getColumn("idioma"));
+        tableLibros.removeColumn(tableLibros.getColumn("edicion"));
+        tableLibros.removeColumn(tableLibros.getColumn("nro_ejemplares"));
+        tableLibros.removeColumn(tableLibros.getColumn("id_categoria"));
+        tableLibros.removeColumn(tableLibros.getColumn("id_editorial"));
+        tableLibros.removeColumn(tableLibros.getColumn("ids_autores"));
     }
-
+    
     public void concretarDevolucion() {
-
+        int fila = tablePrestamos.getSelectedRow();
+        DefaultTableModel prestamos = (DefaultTableModel) tablePrestamos.getModel();
+        int id = Integer.parseInt(String.valueOf(prestamos.getValueAt(fila, 0)));
+        m_FichaPrestamoNegocio.concretarPrestamo(id);
+        prestamos.removeRow(fila);
+        DefaultTableModel detalle = (DefaultTableModel) tableDetallePrestamos.getModel();
+        detalle.setRowCount(0);
     }
-
+    
     public void inicializar() {
-
+        cargarTablaBibliotecario();
+        cargarTablaLector();
+        cargarTablaLibro();
+        cargarComboEjemplares();
+        obtenerPrestamos();
     }
-
+    
     public void obtenerDetallePrestamo() {
-
+        int fila = tablePrestamos.getSelectedRow();
+        DefaultTableModel prestamos = (DefaultTableModel) tablePrestamos.getModel();
+        int id = Integer.parseInt(String.valueOf(prestamos.getValueAt(fila, 0)));
+        DefaultTableModel detalle = m_FichaPrestamoNegocio.obtenerDetallePrestamo(id);
+        tableDetallePrestamos.setModel(detalle);
     }
-
+    
     public void obtenerPrestamos() {
-
+        DefaultTableModel prestamos = m_FichaPrestamoNegocio.obtenerPrestamos();
+        tablePrestamos.setModel(prestamos);
+        tablePrestamos.removeColumn(tablePrestamos.getColumn("devuelto"));
+        tablePrestamos.removeColumn(tablePrestamos.getColumn("id_bibliotecario"));
     }
-
+    
     public void registrarPrestamo() {
-
+        int columnaLibro = 1, columnaEjemplar = 2;
+        String[] dateString = textFechaPrestamo.getText().split("-");
+        Date datePrestamo = Date.valueOf(dateString[0] + "-" + dateString[1] + "-" + dateString[2]);
+        dateString = textFechaDevolucion.getText().split("-");
+        Date dateDevolucion = Date.valueOf(dateString[0] + "-" + dateString[1] + "-" + dateString[2]);
+        LinkedList<Integer> ids_libro = new LinkedList<>();
+        LinkedList<Integer> nro_ejemplares = new LinkedList<>();
+        DefaultTableModel detalle = (DefaultTableModel) tableDetallePrestamos.getModel();
+        for (int i = 0; i < detalle.getRowCount(); i++) {
+            ids_libro.add(Integer.parseInt(String.valueOf(detalle.getValueAt(i, columnaLibro))));
+            nro_ejemplares.add(Integer.parseInt(String.valueOf(detalle.getValueAt(i, columnaEjemplar))));
+        }
+        int rowLector = tableLectores.getSelectedRow();
+        int rowBibliotecario = tableBibliotecario.getSelectedRow();
+        int id = m_FichaPrestamoNegocio.registrarPrestamo(
+                datePrestamo,
+                dateDevolucion,
+                Integer.parseInt(String.valueOf(tableLectores.getValueAt(rowLector, 0))),
+                Integer.parseInt(String.valueOf(tableBibliotecario.getValueAt(rowBibliotecario, 0))),
+                ids_libro,
+                nro_ejemplares
+        );
+        DefaultTableModel prestamo = (DefaultTableModel) tablePrestamos.getModel();
+        prestamo.addRow(new Object[]{
+            id, datePrestamo, dateDevolucion, false,
+            Integer.parseInt(String.valueOf(tableLectores.getValueAt(rowLector, 0))),
+            Integer.parseInt(String.valueOf(tableBibliotecario.getValueAt(rowBibliotecario, 0)))
+        });
+        detalle.setRowCount(0);
     }
 
     /**
@@ -82,7 +161,7 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
 
         labelFechaPrestamo = new javax.swing.JLabel();
         textFechaPrestamo = new javax.swing.JTextField();
-        textFechaPrestamo1 = new javax.swing.JTextField();
+        textFechaDevolucion = new javax.swing.JTextField();
         labelFechaDevolucion = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableLibros = new javax.swing.JTable();
@@ -123,6 +202,11 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
                 "Id", "Titulo"
             }
         ));
+        tableLibros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableLibrosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableLibros);
 
         tableLectores.setModel(new javax.swing.table.DefaultTableModel(
@@ -162,12 +246,32 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
         comboEjemplar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         buttonAgregarEjemplar.setText("Agregar");
+        buttonAgregarEjemplar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAgregarEjemplarActionPerformed(evt);
+            }
+        });
 
         buttonRegistrar.setText("Registrar Prestamo");
+        buttonRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRegistrarActionPerformed(evt);
+            }
+        });
 
         buttonObtener.setText("Obtener Detalle");
+        buttonObtener.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonObtenerActionPerformed(evt);
+            }
+        });
 
         buttonConcretar.setText("Concretar Devolucion");
+        buttonConcretar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonConcretarActionPerformed(evt);
+            }
+        });
 
         tablePrestamos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -226,7 +330,7 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelFechaDevolucion)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textFechaPrestamo1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
@@ -261,7 +365,7 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
                     .addComponent(labelFechaPrestamo)
                     .addComponent(textFechaPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelFechaDevolucion)
-                    .addComponent(textFechaPrestamo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelLectores)
@@ -295,6 +399,45 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tableLibrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableLibrosMouseClicked
+        // Selecciono Libro
+        int fila = tableLibros.getSelectedRow();
+        String[] tableHeader = new String[]{"id", "titulo", "isbn", "descripcion", "paginas", "fecha_lanzamiento", "idioma", "edicion", "nro_ejemplares", "id_categoria", "id_editorial", "ids_autores"};
+        DefaultTableModel libros = (DefaultTableModel) tableLibros.getModel();
+        // Cargar Combo
+        int len = Integer.parseInt(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("nro_ejemplares"))));
+        Object v[] = new Object[len];
+        for (int i = 0; i < len; i++) {
+            v[i] = i + 1;
+        }
+        comboEjemplar.setModel(new DefaultComboBoxModel(v));
+    }//GEN-LAST:event_tableLibrosMouseClicked
+
+    private void buttonAgregarEjemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAgregarEjemplarActionPerformed
+        /* Agregar libro al Detalle del Prestamo */
+        // Selecciono Libro
+        int fila = tableLibros.getSelectedRow();
+        String[] tableHeader = new String[]{"id", "titulo", "isbn", "descripcion", "paginas", "fecha_lanzamiento", "idioma", "edicion", "nro_ejemplares", "id_categoria", "id_editorial", "ids_autores"};
+        DefaultTableModel libros = (DefaultTableModel) tableLibros.getModel();
+        // Lo agrego al detalle
+        DefaultTableModel detalle = (DefaultTableModel) tableDetallePrestamos.getModel();
+        detalle.addRow(new Object[]{null,
+            Integer.parseInt(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("id")))),
+            Integer.parseInt(String.valueOf(comboEjemplar.getSelectedItem()))});
+    }//GEN-LAST:event_buttonAgregarEjemplarActionPerformed
+
+    private void buttonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarActionPerformed
+        registrarPrestamo();
+    }//GEN-LAST:event_buttonRegistrarActionPerformed
+
+    private void buttonObtenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonObtenerActionPerformed
+        obtenerDetallePrestamo();
+    }//GEN-LAST:event_buttonObtenerActionPerformed
+
+    private void buttonConcretarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConcretarActionPerformed
+        concretarDevolucion();
+    }//GEN-LAST:event_buttonConcretarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -355,7 +498,7 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
     private javax.swing.JTable tableLectores;
     private javax.swing.JTable tableLibros;
     private javax.swing.JTable tablePrestamos;
+    private javax.swing.JTextField textFechaDevolucion;
     private javax.swing.JTextField textFechaPrestamo;
-    private javax.swing.JTextField textFechaPrestamo1;
     // End of variables declaration//GEN-END:variables
 }

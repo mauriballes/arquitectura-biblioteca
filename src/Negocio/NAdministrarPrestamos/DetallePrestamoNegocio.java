@@ -24,9 +24,10 @@ public class DetallePrestamoNegocio {
     /**
      *
      * @param id_prestamo
+     * @return
      */
     public DefaultTableModel obtenerDetallePrestamo(int id_prestamo) {
-        return null;
+        return m_DetallePrestamo.getDetallePrestamo(id_prestamo);
     }
 
     /**
@@ -36,6 +37,9 @@ public class DetallePrestamoNegocio {
      * @param nros_ejemplares
      */
     public void registrarDetallePrestamo(int id_prestamo, LinkedList<Integer> ids_libros, LinkedList<Integer> nros_ejemplares) {
-
+        for (int i = 0; i < ids_libros.size(); i++) {
+            m_DetallePrestamo.setDetallePrestamo(id_prestamo, ids_libros.get(i), nros_ejemplares.get(i));
+            m_DetallePrestamo.insertarDetallePrestamo();
+        }
     }
 }

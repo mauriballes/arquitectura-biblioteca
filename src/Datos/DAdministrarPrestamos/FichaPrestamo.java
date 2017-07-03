@@ -6,7 +6,14 @@
 package Datos.DAdministrarPrestamos;
 
 import Datos.Conexion;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,14 +39,73 @@ public class FichaPrestamo {
      * @param idPrestamo
      */
     public void concretarDevolucion(int idPrestamo) {
-
+        Connection con = m_Conexion.getConexion();
+        try {
+            PreparedStatement ps = con.prepareStatement("UPDATE biblioteca.ficha_prestramo\n"
+                    + "SET biblioteca.ficha_prestramo.devuelto = ?\n"
+                    + "WHERE biblioteca.ficha_prestramo.id = ?");
+            ps.setBoolean(1, true);
+            ps.setInt(2, idPrestamo);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(FichaPrestamo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public DefaultTableModel getPrestamos() {
-        return null;
+        DefaultTableModel prestamos = new DefaultTableModel();
+        prestamos.setColumnIdentifiers(new Object[]{"id", "fecha_prestamo", "fecha_devolucion", "devuelto", "id_lector", "id_bibliotecario"});
+        Connection con = m_Conexion.getConexion();
+        String sql = "SELECT \n"
+                + "biblioteca.ficha_prestramo.id,\n"
+                + "biblioteca.ficha_prestramo.fecha_prestamo,\n"
+                + "biblioteca.ficha_prestramo.fecha_devolucion,\n"
+                + "biblioteca.ficha_prestramo.devuelto,\n"
+                + "biblioteca.ficha_prestramo.id_lector,\n"
+                + "biblioteca.ficha_prestramo.id_bibliotecario\n"
+                + "FROM biblioteca.ficha_prestramo\n"
+                + "WHERE biblioteca.ficha_prestramo.devuelto = 0";
+        PreparedStatement ps;
+        try {
+            ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                prestamos.addRow(new Object[]{
+                    rs.getInt("id"),
+                    rs.getDate("fecha_prestamo"),
+                    rs.getDate("fecha_devolucion"),
+                    rs.getBoolean("devuelto"),
+                    rs.getString("id_lector"),
+                    rs.getString("id_bibliotecario")
+                });
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FichaPrestamo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return prestamos;
     }
 
     public int registrarPrestamo() {
+        Connection con = m_Conexion.getConexion();
+        try {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO biblioteca.ficha_prestramo(fecha_prestamo,"
+                    + "fecha_devolucion,devuelto,id_lector,id_bibliotecario)\n"
+                    + "VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setDate(1, fechaPrestamo);
+            ps.setDate(2, fechaDevolucion);
+            ps.setBoolean(3, false);
+            ps.setInt(4, idLector);
+            ps.setInt(5, idBibliotecario);
+            int rows = ps.executeUpdate();
+            if (rows != 0) {
+                ResultSet generateKeys = ps.getGeneratedKeys();
+                if (generateKeys.next()) {
+                    return generateKeys.getInt(1);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FichaPrestamo.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return 0;
     }
 
@@ -51,6 +117,9 @@ public class FichaPrestamo {
      * @param idBibliotecario
      */
     public void setPrestamo(Date fechaPrestamo, Date fechaDevolucion, int idLector, int idBibliotecario) {
-
+        this.fechaPrestamo = fechaPrestamo;
+        this.fechaDevolucion = fechaDevolucion;
+        this.idLector = idLector;
+        this.idBibliotecario = idBibliotecario;
     }
 }
