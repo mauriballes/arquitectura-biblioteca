@@ -5,9 +5,7 @@
  */
 package Presentacion.PAdministrarLibros;
 
-import Negocio.NAdministrarLibros.AutorNegocio;
-import Negocio.NAdministrarLibros.CategoriaNegocio;
-import Negocio.NAdministrarLibros.EditorialNegocio;
+import Negocio.NAdministrarLibros.LibroFacade;
 import Negocio.NAdministrarLibros.LibroNegocio;
 import java.sql.Date;
 import java.util.LinkedList;
@@ -23,34 +21,30 @@ public class LibroFrm extends javax.swing.JFrame {
      * Creates new form LibroFrm
      */
     private LibroNegocio m_LibroNegocio;
-    private EditorialNegocio m_EditorialNegocio;
-    private CategoriaNegocio m_CategoriaNegocio;
-    private AutorNegocio m_AutorNegocio;
+    private LibroFacade m_LibroFacade;
 
     public LibroFrm() {
         initComponents();
         this.setTitle("Gestionar Libro");
         this.setLocationRelativeTo(null);
         m_LibroNegocio = new LibroNegocio();
-        m_AutorNegocio = new AutorNegocio();
-        m_CategoriaNegocio = new CategoriaNegocio();
-        m_EditorialNegocio = new EditorialNegocio();
+        m_LibroFacade = new LibroFacade();
         inicializar();
     }
 
     public void cargarTablaAutores() {
-        DefaultTableModel autores = m_AutorNegocio.obtenerAutores();
+        DefaultTableModel autores = m_LibroFacade.obtenerAutores();
         tableAutores.setModel(autores);
     }
 
     public void cargarTablaCategoria() {
-        DefaultTableModel categorias = m_CategoriaNegocio.obtenerCategorias();
+        DefaultTableModel categorias = m_LibroFacade.obtenerCategorias();
         tableCategoria.setModel(categorias);
         tableCategoria.removeColumn(tableCategoria.getColumn("descripcion"));
     }
 
     public void cargarTablaEditorial() {
-        DefaultTableModel editoriales = m_EditorialNegocio.obtenerEditoriales();
+        DefaultTableModel editoriales = m_LibroFacade.obtenerEditoriales();
         tableEditorial.setModel(editoriales);
         tableEditorial.removeColumn(tableEditorial.getColumn("telefono"));
         tableEditorial.removeColumn(tableEditorial.getColumn("direccion"));
@@ -87,7 +81,7 @@ public class LibroFrm extends javax.swing.JFrame {
 
     public void registrarLibro() {
         String[] dateString = textFechaLanzamiento.getText().split("-");
-        Date date = Date.valueOf(dateString[0] +"-"+ dateString[1] +"-"+ dateString[2]);
+        Date date = Date.valueOf(dateString[0] + "-" + dateString[1] + "-" + dateString[2]);
         LinkedList<Integer> autores = new LinkedList<>();
         int[] autoresSelected = tableAutores.getSelectedRows();
         for (int i = 0; i < autoresSelected.length; i++) {

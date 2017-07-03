@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author mauriballes
  */
-public class Ejemplar {
+public class Ejemplar implements Prototype {
 
     private int id_libro;
     private int nro_ejemplar;
@@ -90,6 +90,18 @@ public class Ejemplar {
      * @param nro_ejemplar
      */
     public void setEjemplar(int id_libro, int nro_ejemplar) {
+        this.id_libro = id_libro;
+        this.nro_ejemplar = nro_ejemplar;
+    }
 
+    public void setNro_ejemplar(int nro_ejemplar) {
+        this.nro_ejemplar = nro_ejemplar;
+    }
+
+    @Override
+    public Ejemplar clonar() {
+        Ejemplar copy = new Ejemplar();
+        copy.setEjemplar(this.id_libro, this.nro_ejemplar);
+        return copy;
     }
 }

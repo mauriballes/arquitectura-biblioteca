@@ -126,7 +126,17 @@ public class Libro {
      * @param ids_autores
      */
     public void setLibro(String titulo, String isbn, String descripcion, int paginas, int edicion, Date fecha_lanzamiento, String idioma, int nro_ejemplares, int id_categoria, int id_editorial, LinkedList<Integer> ids_autores) {
-
+        this.titulo = titulo;
+        this.isbn = isbn;
+        this.descripcion = descripcion;
+        this.paginas = paginas;
+        this.edicion = edicion;
+        this.fecha_lanzamiento = fecha_lanzamiento;
+        this.idioma = idioma;
+        this.nro_ejemplares = nro_ejemplares;
+        this.id_categoria = id_categoria;
+        this.id_editorial = id_editorial;
+        this.ids_autores = ids_autores;
     }
 
     /**
@@ -145,6 +155,17 @@ public class Libro {
      * @param ids_autores
      */
     public void setLibro(int id, String titulo, String isbn, String descripcion, int paginas, int edicion, Date fecha_lanzamiento, String idioma, int nro_ejemplares, int id_categoria, int id_editorial, LinkedList<Integer> ids_autores) {
-
+        this.id = id;
+        this.titulo = titulo;
+        this.isbn = isbn;
+        this.descripcion = descripcion;
+        this.paginas = paginas;
+        this.edicion = edicion;
+        this.fecha_lanzamiento = fecha_lanzamiento;
+        this.idioma = idioma;
+        this.nro_ejemplares = nro_ejemplares;
+        this.id_categoria = id_categoria;
+        this.id_editorial = id_editorial;
+        this.ids_autores = ids_autores;
     }
 }
