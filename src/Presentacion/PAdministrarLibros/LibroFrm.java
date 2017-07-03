@@ -8,7 +8,9 @@ package Presentacion.PAdministrarLibros;
 import Negocio.NAdministrarLibros.LibroFacade;
 import Negocio.NAdministrarLibros.LibroNegocio;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.LinkedList;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,7 +24,7 @@ public class LibroFrm extends javax.swing.JFrame {
      */
     private LibroNegocio m_LibroNegocio;
     private LibroFacade m_LibroFacade;
-
+    
     public LibroFrm() {
         initComponents();
         this.setTitle("Gestionar Libro");
@@ -31,40 +33,87 @@ public class LibroFrm extends javax.swing.JFrame {
         m_LibroFacade = new LibroFacade();
         inicializar();
     }
-
+    
     public void cargarTablaAutores() {
         DefaultTableModel autores = m_LibroFacade.obtenerAutores();
         tableAutores.setModel(autores);
     }
-
+    
     public void cargarTablaCategoria() {
         DefaultTableModel categorias = m_LibroFacade.obtenerCategorias();
         tableCategoria.setModel(categorias);
         tableCategoria.removeColumn(tableCategoria.getColumn("descripcion"));
     }
-
+    
     public void cargarTablaEditorial() {
         DefaultTableModel editoriales = m_LibroFacade.obtenerEditoriales();
         tableEditorial.setModel(editoriales);
         tableEditorial.removeColumn(tableEditorial.getColumn("telefono"));
         tableEditorial.removeColumn(tableEditorial.getColumn("direccion"));
     }
-
+    
     public void eliminarLibro() {
-
+        int fila = tableLibros.getSelectedRow();
+        DefaultTableModel librosUpdated = (DefaultTableModel) tableLibros.getModel();
+        m_LibroNegocio.eliminarLibro(Integer.parseInt(librosUpdated.getValueAt(fila, 0).toString()));
+        librosUpdated.removeRow(fila);
+        tableAutores.clearSelection();
+        tableCategoria.clearSelection();
+        tableEditorial.clearSelection();
+        textTitulo.setText("");
+        textIsbn.setText("");
+        textFechaLanzamiento.setText("");
+        textDescripcion.setText("");
+        textPaginas.setText("");
+        textEdicion.setText("");
+        textIdioma.setText("");
+        spinnerEjemplares.setValue(0);
     }
-
+    
     public void inicializar() {
         cargarTablaEditorial();
         cargarTablaAutores();
         cargarTablaCategoria();
         obtenerLibros();
     }
-
+    
     public void modificarLibro() {
-
+        String[] tableHeader = new String[]{"id", "titulo", "isbn", "descripcion", "paginas", "fecha_lanzamiento", "idioma", "edicion", "nro_ejemplares", "id_categoria", "id_editorial", "ids_autores"};
+        String[] dateString = textFechaLanzamiento.getText().split("-");
+        Date date = Date.valueOf(dateString[0] + "-" + dateString[1] + "-" + dateString[2]);
+        LinkedList<Integer> autores = new LinkedList<>();
+        int[] autoresSelected = tableAutores.getSelectedRows();
+        for (int i = 0; i < autoresSelected.length; i++) {
+            autores.add((Integer) tableAutores.getValueAt(autoresSelected[i], 0));
+        }
+        DefaultTableModel librosUpdated = (DefaultTableModel) tableLibros.getModel();
+        int fila = tableLibros.getSelectedRow();
+        m_LibroNegocio.modificarLibro(
+                Integer.parseInt(librosUpdated.getValueAt(fila, Arrays.asList(tableHeader).indexOf("id")).toString()),
+                textTitulo.getText(),
+                textIsbn.getText(),
+                textDescripcion.getText(),
+                Integer.parseInt(textPaginas.getText()),
+                Integer.parseInt(textEdicion.getText()),
+                date,
+                textIdioma.getText(),
+                Integer.parseInt(String.valueOf(spinnerEjemplares.getValue())),
+                Integer.parseInt(String.valueOf(tableCategoria.getValueAt(tableCategoria.getSelectedRow(), 0))),
+                Integer.parseInt(String.valueOf(tableEditorial.getValueAt(tableEditorial.getSelectedRow(), 0))),
+                autores
+        );
+        librosUpdated.setValueAt(textTitulo.getText(), fila, Arrays.asList(tableHeader).indexOf("titulo"));
+        librosUpdated.setValueAt(textIsbn.getText(), fila, Arrays.asList(tableHeader).indexOf("isbn"));
+        librosUpdated.setValueAt(textDescripcion.getText(), fila, Arrays.asList(tableHeader).indexOf("descripcion"));
+        librosUpdated.setValueAt(Integer.parseInt(textPaginas.getText()), fila, Arrays.asList(tableHeader).indexOf("paginas"));
+        librosUpdated.setValueAt(Integer.parseInt(textEdicion.getText()), fila, Arrays.asList(tableHeader).indexOf("edicion"));
+        librosUpdated.setValueAt(textFechaLanzamiento.getText(), fila, Arrays.asList(tableHeader).indexOf("fecha_lanzamiento"));
+        librosUpdated.setValueAt(Integer.parseInt(String.valueOf(spinnerEjemplares.getValue())), fila, Arrays.asList(tableHeader).indexOf("nro_ejemplares"));
+        librosUpdated.setValueAt(Integer.parseInt(String.valueOf(tableCategoria.getValueAt(tableCategoria.getSelectedRow(), 0))), fila, Arrays.asList(tableHeader).indexOf("id_categoria"));
+        librosUpdated.setValueAt(Integer.parseInt(String.valueOf(tableEditorial.getValueAt(tableEditorial.getSelectedRow(), 0))), fila, Arrays.asList(tableHeader).indexOf("id_editorial"));
+        librosUpdated.setValueAt(autores, fila, Arrays.asList(tableHeader).indexOf("ids_autores"));
     }
-
+    
     public void obtenerLibros() {
         DefaultTableModel libros = m_LibroNegocio.obtenerLibros();
         tableLibros.setModel(libros);
@@ -78,7 +127,7 @@ public class LibroFrm extends javax.swing.JFrame {
         tableLibros.removeColumn(tableLibros.getColumn("id_editorial"));
         tableLibros.removeColumn(tableLibros.getColumn("ids_autores"));
     }
-
+    
     public void registrarLibro() {
         String[] dateString = textFechaLanzamiento.getText().split("-");
         Date date = Date.valueOf(dateString[0] + "-" + dateString[1] + "-" + dateString[2]);
@@ -95,23 +144,25 @@ public class LibroFrm extends javax.swing.JFrame {
                 Integer.parseInt(textEdicion.getText()),
                 date,
                 textIdioma.getText(),
-                Integer.parseInt((String) spinnerEjemplares.getValue()),
-                Integer.parseInt((String) tableCategoria.getValueAt(tableCategoria.getSelectedRow(), 0)),
-                Integer.parseInt((String) tableEditorial.getValueAt(tableEditorial.getSelectedRow(), 0)),
+                Integer.parseInt(String.valueOf(spinnerEjemplares.getValue())),
+                Integer.parseInt(String.valueOf(tableCategoria.getValueAt(tableCategoria.getSelectedRow(), 0))),
+                Integer.parseInt(String.valueOf(tableEditorial.getValueAt(tableEditorial.getSelectedRow(), 0))),
                 autores);
-//        DefaultTableModel bibliotecariosUpdated = (DefaultTableModel) tableBibliotecarios.getModel();
-//        bibliotecariosUpdated.addRow(new Object[]{
-//            id,
-//            Integer.parseInt(textCi.getText()),
-//            textApellidos.getText(),
-//            textNombres.getText(),
-//            textDireccion.getText(),
-//            date,
-//            String.valueOf(comboSexo.getSelectedItem()).charAt(0),
-//            Integer.parseInt(textTelefono.getText()),
-//            Integer.parseInt(textAnoContratacion.getText()),
-//            0
-//        });
+        DefaultTableModel librosUpdated = (DefaultTableModel) tableLibros.getModel();
+        librosUpdated.addRow(new Object[]{
+            id,
+            textTitulo.getText(),
+            textIsbn.getText(),
+            textDescripcion.getText(),
+            Integer.parseInt(textPaginas.getText()),
+            date,
+            textIdioma.getText(),
+            Integer.parseInt(textEdicion.getText()),
+            Integer.parseInt(String.valueOf(spinnerEjemplares.getValue())),
+            Integer.parseInt(String.valueOf(tableCategoria.getValueAt(tableCategoria.getSelectedRow(), 0))),
+            Integer.parseInt(String.valueOf(tableEditorial.getValueAt(tableEditorial.getSelectedRow(), 0))),
+            autores
+        });
     }
 
     /**
@@ -183,6 +234,11 @@ public class LibroFrm extends javax.swing.JFrame {
                 "Id", "Titulo", "Descripcion"
             }
         ));
+        tableLibros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableLibrosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableLibros);
 
         buttonRegistrar.setText("Registrar");
@@ -193,8 +249,18 @@ public class LibroFrm extends javax.swing.JFrame {
         });
 
         buttonModificar.setText("Modificar");
+        buttonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonModificarActionPerformed(evt);
+            }
+        });
 
         buttonEliminar.setText("Eliminar");
+        buttonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEliminarActionPerformed(evt);
+            }
+        });
 
         tableEditorial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -372,6 +438,51 @@ public class LibroFrm extends javax.swing.JFrame {
     private void buttonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarActionPerformed
         registrarLibro();
     }//GEN-LAST:event_buttonRegistrarActionPerformed
+
+    private void tableLibrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableLibrosMouseClicked
+        int fila = tableLibros.getSelectedRow();
+        String[] tableHeader = new String[]{"id", "titulo", "isbn", "descripcion", "paginas", "fecha_lanzamiento", "idioma", "edicion", "nro_ejemplares", "id_categoria", "id_editorial", "ids_autores"};
+        DefaultTableModel libros = (DefaultTableModel) tableLibros.getModel();
+        textTitulo.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("titulo"))));
+        textIsbn.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("isbn"))));
+        textDescripcion.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("descripcion"))));
+        textPaginas.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("paginas"))));
+        textFechaLanzamiento.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_lanzamiento"))));
+        textIdioma.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("idioma"))));
+        textEdicion.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("edicion"))));
+        spinnerEjemplares.setValue(Integer.parseInt(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("nro_ejemplares")))));
+        // Seleccionar tablas
+        int id_categoria = Integer.parseInt(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("id_categoria"))));
+        for (int i = 0; i < tableCategoria.getRowCount(); i++) {
+            if (Integer.parseInt(String.valueOf(tableCategoria.getValueAt(i, 0))) == id_categoria) {
+                tableCategoria.setRowSelectionInterval(i, i);
+                break;
+            }
+        }
+        int id_editorial = Integer.parseInt(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("id_editorial"))));
+        for (int i = 0; i < tableEditorial.getRowCount(); i++) {
+            if (Integer.parseInt(String.valueOf(tableEditorial.getValueAt(i, 0))) == id_editorial) {
+                tableEditorial.setRowSelectionInterval(i, i);
+                break;
+            }
+        }
+        LinkedList<Integer> ids_autores = (LinkedList<Integer>) libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("ids_autores"));
+        ListSelectionModel selection = tableAutores.getSelectionModel();
+        selection.clearSelection();
+        for (int i = 0; i < tableAutores.getRowCount(); i++) {
+            if (ids_autores.indexOf(Integer.parseInt(String.valueOf(tableAutores.getValueAt(i, 0)))) != -1) {
+                selection.addSelectionInterval(i, i);
+            }
+        }
+    }//GEN-LAST:event_tableLibrosMouseClicked
+
+    private void buttonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModificarActionPerformed
+        modificarLibro();
+    }//GEN-LAST:event_buttonModificarActionPerformed
+
+    private void buttonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarActionPerformed
+        eliminarLibro();
+    }//GEN-LAST:event_buttonEliminarActionPerformed
 
     /**
      * @param args the command line arguments

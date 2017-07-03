@@ -29,7 +29,8 @@ public class LibroNegocio {
      * @param id
      */
     public void eliminarLibro(int id) {
-
+        m_Libro.eliminarLibro(id);
+        m_EjemplarNegocio.eliminarEjemplares(id);
     }
 
     /**
@@ -48,7 +49,9 @@ public class LibroNegocio {
      * @param ids_autores
      */
     public void modificarLibro(int id, String titulo, String isbn, String descripcion, int paginas, int edicion, Date fecha_lanzamiento, String idioma, int nro_ejemplares, int id_categoria, int id_editorial, LinkedList<Integer> ids_autores) {
-
+        m_Libro.setLibro(id, titulo, isbn, descripcion, paginas, edicion, fecha_lanzamiento, idioma, nro_ejemplares, id_categoria, id_editorial, ids_autores);
+        m_Libro.modificarLibro();
+        m_EjemplarNegocio.modificarCantEjemplares(id, nro_ejemplares);
     }
 
     public DefaultTableModel obtenerLibros() {
@@ -79,8 +82,12 @@ public class LibroNegocio {
      * @param id_categoria
      * @param id_editorial
      * @param ids_autores
+     * @return
      */
     public int registrarLibro(String titulo, String isbn, String descripcion, int paginas, int edicion, Date fecha_lanzamiento, String idioma, int nro_ejemplares, int id_categoria, int id_editorial, LinkedList<Integer> ids_autores) {
-        return 0;
+        m_Libro.setLibro(titulo, isbn, descripcion, paginas, edicion, fecha_lanzamiento, idioma, nro_ejemplares, id_categoria, id_editorial, ids_autores);
+        int id = m_Libro.insertarLibro();
+        m_EjemplarNegocio.registrarCantEjemplares(id, nro_ejemplares);
+        return id;
     }
 }

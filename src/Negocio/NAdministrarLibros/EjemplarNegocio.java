@@ -26,7 +26,7 @@ public class EjemplarNegocio {
      * @param id_libro
      */
     public void eliminarEjemplares(int id_libro) {
-
+        m_Ejemplar.eliminarEjemplares(id_libro);
     }
 
     /**
@@ -35,7 +35,15 @@ public class EjemplarNegocio {
      * @param cant_ejemplares
      */
     public void modificarCantEjemplares(int id_libro, int cant_ejemplares) {
-
+        int old_cantidad = m_Ejemplar.getCantEjemplares(id_libro);
+        if (cant_ejemplares >= old_cantidad) {
+            // Salir por que no cumple la condicion, debe ser manor la cantidad
+            return;
+        }
+        // Eliminar los ejemplares excedentes
+        for (int i = cant_ejemplares + 1; i <= old_cantidad; i++) {
+            m_Ejemplar.eliminarEjemplar(id_libro, i);
+        }
     }
 
     /**
@@ -60,6 +68,11 @@ public class EjemplarNegocio {
      * @param cant_ejemplares
      */
     public void registrarCantEjemplares(int id_libro, int cant_ejemplares) {
-
+        m_Ejemplar.setEjemplar(id_libro, cant_ejemplares);
+        for (int i = 1; i <= cant_ejemplares; i++) {
+            Ejemplar ejemplar = m_Ejemplar.clonar();
+            ejemplar.setNro_ejemplar(i);
+            ejemplar.insertarEjemplar();
+        }
     }
 }

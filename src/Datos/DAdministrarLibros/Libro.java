@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +47,17 @@ public class Libro {
      * @param id
      */
     public void eliminarLibro(int id) {
-
+        Connection con = m_Conexion.getConexion();
+        try {
+            PreparedStatement ps = con.prepareStatement("DELETE FROM biblioteca.ejemplar WHERE biblioteca.ejemplar.id_libro = ?");
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            PreparedStatement ps2 = con.prepareStatement("DELETE FROM biblioteca.libro WHERE biblioteca.libro.id = ?");
+            ps2.setInt(1, id);
+            ps2.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Libro.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public DefaultTableModel getLibros() {
@@ -104,11 +115,81 @@ public class Libro {
     }
 
     public int insertarLibro() {
+        Connection con = m_Conexion.getConexion();
+        try {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO biblioteca.libro("
+                    + "titulo, isbn, descripcion, paginas, fecha_lanzamiento, idioma, edicion, id_categoria, id_editorial)\n"
+                    + "VALUES (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, titulo);
+            ps.setString(2, isbn);
+            ps.setString(3, descripcion);
+            ps.setInt(4, paginas);
+            ps.setDate(5, fecha_lanzamiento);
+            ps.setString(6, idioma);
+            ps.setInt(7, edicion);
+            ps.setInt(8, id_categoria);
+            ps.setInt(9, id_editorial);
+            int rows = ps.executeUpdate();
+            if (rows != 0) {
+                ResultSet generateKeys = ps.getGeneratedKeys();
+                if (generateKeys.next()) {
+                    int id_libro = generateKeys.getInt(1);
+                    for (Integer id_autor : ids_autores) {
+                        PreparedStatement ps2 = con.prepareStatement("INSERT INTO biblioteca.autoria(id_libro, id_autor)\n"
+                                + "VALUES(?,?)");
+                        ps2.setInt(1, id_libro);
+                        ps2.setInt(2, id_autor);
+                        ps2.executeUpdate();
+                    }
+                    return id_libro;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Libro.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return 0;
     }
 
     public void modificarLibro() {
-
+        Connection con = m_Conexion.getConexion();
+        try {
+            String sql = "UPDATE biblioteca.libro \n"
+                    + "SET biblioteca.libro.titulo = ?, \n"
+                    + "biblioteca.libro.isbn = ?, \n"
+                    + "biblioteca.libro.descripcion = ?, \n"
+                    + "biblioteca.libro.paginas = ?, \n"
+                    + "biblioteca.libro.fecha_lanzamiento = ?, \n"
+                    + "biblioteca.libro.idioma = ?, \n"
+                    + "biblioteca.libro.edicion = ?, \n"
+                    + "biblioteca.libro.id_categoria = ?, \n"
+                    + "biblioteca.libro.id_editorial = ?\n"
+                    + "WHERE biblioteca.libro.id = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, titulo);
+            ps.setString(2, isbn);
+            ps.setString(3, descripcion);
+            ps.setInt(4, paginas);
+            ps.setDate(5, fecha_lanzamiento);
+            ps.setString(6, idioma);
+            ps.setInt(7, edicion);
+            ps.setInt(8, id_categoria);
+            ps.setInt(9, id_editorial);
+            ps.setInt(10, id);
+            ps.executeUpdate();
+            // Eliminar autores y volver a colocarlos
+            PreparedStatement ps2 = con.prepareStatement("DELETE FROM biblioteca.autoria WHERE biblioteca.autoria.id_libro = ?");
+            ps2.setInt(1, id);
+            ps2.executeUpdate();
+            for (Integer id_autor : ids_autores) {
+                PreparedStatement ps3 = con.prepareStatement("INSERT INTO biblioteca.autoria(id_libro, id_autor)\n"
+                        + "VALUES(?,?)");
+                ps3.setInt(1, id);
+                ps3.setInt(2, id_autor);
+                ps3.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Libro.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
