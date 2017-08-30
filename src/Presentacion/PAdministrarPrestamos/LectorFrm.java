@@ -43,7 +43,7 @@ public class LectorFrm extends javax.swing.JFrame {
         textApellidos.setText("");
         textNombres.setText("");
         textDireccion.setText("");
-        textFechaNacimiento.setText("");
+        calendarFechaNacimiento.setDateFormatString("");
         textFechaAfiliacion.setText("");
         textTelefono.setText("");
     }
@@ -55,10 +55,14 @@ public class LectorFrm extends javax.swing.JFrame {
 
     public void modificarLector() {
         String[] tableHeader = new String[]{"id", "ci", "apellidos", "nombres", "direccion", "fecha_nacimiento", "sexo", "telefono", "fecha_afiliacion", "id_persona"};
-        String[] dateString = textFechaNacimiento.getText().split("-");
-        Date date = Date.valueOf(dateString[0] +"-"+ dateString[1] +"-"+ dateString[2]);
-        String[] dateString2 = textFechaNacimiento.getText().split("-");
-        Date date2 = Date.valueOf(dateString2[0] +"-"+ dateString2[1] +"-"+ dateString2[2]);
+        int dia = calendarFechaNacimiento.getDate().getDate();
+        int mes = calendarFechaNacimiento.getDate().getMonth();
+        int anio = calendarFechaNacimiento.getDate().getYear();
+        Date date = Date.valueOf(anio +"-"+ mes +"-"+ dia);
+        dia = calendarFechaNacimiento.getDate().getDate();
+        mes = calendarFechaNacimiento.getDate().getMonth();
+        anio = calendarFechaNacimiento.getDate().getYear();
+        Date date2 = Date.valueOf(anio +"-"+ mes +"-"+ dia);
         DefaultTableModel lectoresUpdated = (DefaultTableModel) tableLectores.getModel();
         int fila = tableLectores.getSelectedRow();
         m_LectorNegocio.modificarLector(
@@ -76,7 +80,7 @@ public class LectorFrm extends javax.swing.JFrame {
         lectoresUpdated.setValueAt(textApellidos.getText(), fila, Arrays.asList(tableHeader).indexOf("apellidos"));
         lectoresUpdated.setValueAt(textNombres.getText(), fila, Arrays.asList(tableHeader).indexOf("nombres"));
         lectoresUpdated.setValueAt(textDireccion.getText(), fila, Arrays.asList(tableHeader).indexOf("direccion"));
-        lectoresUpdated.setValueAt(textFechaNacimiento.getText(), fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento"));
+        lectoresUpdated.setValueAt(calendarFechaNacimiento.getDate().toString(), fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento"));
         lectoresUpdated.setValueAt(String.valueOf(comboSexo.getSelectedItem()).charAt(0), fila, Arrays.asList(tableHeader).indexOf("sexo"));
         lectoresUpdated.setValueAt(textTelefono.getText(), fila, Arrays.asList(tableHeader).indexOf("telefono"));
         lectoresUpdated.setValueAt(textFechaAfiliacion.getText(), fila, Arrays.asList(tableHeader).indexOf("fecha_afiliacion"));
@@ -94,10 +98,14 @@ public class LectorFrm extends javax.swing.JFrame {
     }
 
     public void registrarLector() {
-        String[] dateString = textFechaNacimiento.getText().split("-");
-        Date date = Date.valueOf(dateString[0] +"-"+ dateString[1] +"-"+ dateString[2]);
-        String[] dateString2 = textFechaAfiliacion.getText().split("-");
-        Date date2 = Date.valueOf(dateString2[0] +"-"+ dateString2[1] +"-"+ dateString2[2]);
+        int dia = calendarFechaNacimiento.getDate().getDate();
+        int mes = calendarFechaNacimiento.getDate().getMonth();
+        int anio = calendarFechaNacimiento.getDate().getYear();
+        Date date = Date.valueOf(anio +"-"+ mes +"-"+ dia);
+        dia = calendarFechaNacimiento.getDate().getDate();
+        mes = calendarFechaNacimiento.getDate().getMonth();
+        anio = calendarFechaNacimiento.getDate().getYear();
+        Date date2 = Date.valueOf(anio +"-"+ mes +"-"+ dia);
         int id = m_LectorNegocio.registrarLector(
                 Integer.parseInt(textCi.getText()),
                 textApellidos.getText(),
@@ -143,7 +151,6 @@ public class LectorFrm extends javax.swing.JFrame {
         textApellidos = new javax.swing.JTextField();
         textNombres = new javax.swing.JTextField();
         textDireccion = new javax.swing.JTextField();
-        textFechaNacimiento = new javax.swing.JTextField();
         textTelefono = new javax.swing.JTextField();
         textFechaAfiliacion = new javax.swing.JTextField();
         comboSexo = new javax.swing.JComboBox<>();
@@ -152,6 +159,7 @@ public class LectorFrm extends javax.swing.JFrame {
         buttonRegistrar = new javax.swing.JButton();
         buttonModificar = new javax.swing.JButton();
         buttonEliminar = new javax.swing.JButton();
+        calendarFechaNacimiento = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -171,7 +179,7 @@ public class LectorFrm extends javax.swing.JFrame {
 
         labelFechaAfiliacion.setText("Fecha de Afiliacion");
 
-        comboSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "M", "F" }));
 
         tableLectores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -218,59 +226,58 @@ public class LectorFrm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelApellidos)
-                            .addComponent(labelCi))
-                        .addGap(21, 21, 21)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelNombres)
+                                    .addComponent(labelDireccion))
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(textNombres, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                                    .addComponent(textDireccion))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelSexo)
+                                    .addComponent(labelFechaNacimiento)
+                                    .addComponent(labelTelefono)
+                                    .addComponent(labelFechaAfiliacion))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(buttonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(144, 144, 144)
+                                .addComponent(buttonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                                .addGap(71, 71, 71))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelApellidos)
+                                    .addComponent(labelCi))
+                                .addGap(21, 21, 21)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textCi, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(textApellidos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textCi, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textApellidos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(330, 377, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(labelNombres)
-                                            .addComponent(labelDireccion))
-                                        .addGap(20, 20, 20)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(textNombres, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                                            .addComponent(textDireccion))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(labelSexo)
-                                            .addComponent(labelFechaNacimiento)
-                                            .addComponent(labelTelefono)
-                                            .addComponent(labelFechaAfiliacion))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(buttonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(144, 144, 144)
-                                        .addComponent(buttonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(71, 71, 71)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(textTelefono, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(textFechaNacimiento, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(comboSexo, javax.swing.GroupLayout.Alignment.TRAILING, 0, 189, Short.MAX_VALUE)
-                                        .addComponent(textFechaAfiliacion))
-                                    .addComponent(buttonEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(20, 20, 20))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(textTelefono, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(comboSexo, javax.swing.GroupLayout.Alignment.TRAILING, 0, 189, Short.MAX_VALUE)
+                                .addComponent(textFechaAfiliacion))
+                            .addComponent(buttonEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(calendarFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCi)
-                    .addComponent(labelFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textCi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelCi)
+                        .addComponent(labelFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(textCi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(calendarFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -315,7 +322,7 @@ public class LectorFrm extends javax.swing.JFrame {
         textApellidos.setText(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("apellidos"))));
         textNombres.setText(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("nombres"))));
         textDireccion.setText(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("direccion"))));
-        textFechaNacimiento.setText(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento"))));
+        calendarFechaNacimiento.setDateFormatString(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento"))));
         textTelefono.setText(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("telefono"))));
         textFechaAfiliacion.setText(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_afiliacion"))));
         comboSexo.setSelectedItem(String.valueOf(lectores.getValueAt(fila, Arrays.asList(tableHeader).indexOf("sexo"))));
@@ -368,6 +375,7 @@ public class LectorFrm extends javax.swing.JFrame {
     private javax.swing.JButton buttonEliminar;
     private javax.swing.JButton buttonModificar;
     private javax.swing.JButton buttonRegistrar;
+    private com.toedter.calendar.JDateChooser calendarFechaNacimiento;
     private javax.swing.JComboBox<String> comboSexo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelApellidos;
@@ -383,7 +391,6 @@ public class LectorFrm extends javax.swing.JFrame {
     private javax.swing.JTextField textCi;
     private javax.swing.JTextField textDireccion;
     private javax.swing.JTextField textFechaAfiliacion;
-    private javax.swing.JTextField textFechaNacimiento;
     private javax.swing.JTextField textNombres;
     private javax.swing.JTextField textTelefono;
     // End of variables declaration//GEN-END:variables

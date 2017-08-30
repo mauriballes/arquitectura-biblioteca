@@ -62,7 +62,7 @@ public class LibroFrm extends javax.swing.JFrame {
         tableEditorial.clearSelection();
         textTitulo.setText("");
         textIsbn.setText("");
-        textFechaLanzamiento.setText("");
+        calendarFechaLanzamiento.setDateFormatString("");
         textDescripcion.setText("");
         textPaginas.setText("");
         textEdicion.setText("");
@@ -79,8 +79,10 @@ public class LibroFrm extends javax.swing.JFrame {
     
     public void modificarLibro() {
         String[] tableHeader = new String[]{"id", "titulo", "isbn", "descripcion", "paginas", "fecha_lanzamiento", "idioma", "edicion", "nro_ejemplares", "id_categoria", "id_editorial", "ids_autores"};
-        String[] dateString = textFechaLanzamiento.getText().split("-");
-        Date date = Date.valueOf(dateString[0] + "-" + dateString[1] + "-" + dateString[2]);
+        int dia = calendarFechaLanzamiento.getDate().getDate();
+        int mes = calendarFechaLanzamiento.getDate().getMonth();
+        int anio = calendarFechaLanzamiento.getDate().getYear();
+        Date date = Date.valueOf(anio +"-"+ mes +"-"+ dia);
         LinkedList<Integer> autores = new LinkedList<>();
         int[] autoresSelected = tableAutores.getSelectedRows();
         for (int i = 0; i < autoresSelected.length; i++) {
@@ -107,7 +109,7 @@ public class LibroFrm extends javax.swing.JFrame {
         librosUpdated.setValueAt(textDescripcion.getText(), fila, Arrays.asList(tableHeader).indexOf("descripcion"));
         librosUpdated.setValueAt(Integer.parseInt(textPaginas.getText()), fila, Arrays.asList(tableHeader).indexOf("paginas"));
         librosUpdated.setValueAt(Integer.parseInt(textEdicion.getText()), fila, Arrays.asList(tableHeader).indexOf("edicion"));
-        librosUpdated.setValueAt(textFechaLanzamiento.getText(), fila, Arrays.asList(tableHeader).indexOf("fecha_lanzamiento"));
+        librosUpdated.setValueAt(calendarFechaLanzamiento.getDate().toString(), fila, Arrays.asList(tableHeader).indexOf("fecha_lanzamiento"));
         librosUpdated.setValueAt(Integer.parseInt(String.valueOf(spinnerEjemplares.getValue())), fila, Arrays.asList(tableHeader).indexOf("nro_ejemplares"));
         librosUpdated.setValueAt(Integer.parseInt(String.valueOf(tableCategoria.getValueAt(tableCategoria.getSelectedRow(), 0))), fila, Arrays.asList(tableHeader).indexOf("id_categoria"));
         librosUpdated.setValueAt(Integer.parseInt(String.valueOf(tableEditorial.getValueAt(tableEditorial.getSelectedRow(), 0))), fila, Arrays.asList(tableHeader).indexOf("id_editorial"));
@@ -129,8 +131,10 @@ public class LibroFrm extends javax.swing.JFrame {
     }
     
     public void registrarLibro() {
-        String[] dateString = textFechaLanzamiento.getText().split("-");
-        Date date = Date.valueOf(dateString[0] + "-" + dateString[1] + "-" + dateString[2]);
+        int dia = calendarFechaLanzamiento.getDate().getDate();
+        int mes = calendarFechaLanzamiento.getDate().getMonth();
+        int anio = calendarFechaLanzamiento.getDate().getYear();
+        Date date = Date.valueOf(anio +"-"+ mes +"-"+ dia);
         LinkedList<Integer> autores = new LinkedList<>();
         int[] autoresSelected = tableAutores.getSelectedRows();
         for (int i = 0; i < autoresSelected.length; i++) {
@@ -185,7 +189,6 @@ public class LibroFrm extends javax.swing.JFrame {
         labelIdioma = new javax.swing.JLabel();
         textIdioma = new javax.swing.JTextField();
         labelFechaLanzamiento = new javax.swing.JLabel();
-        textFechaLanzamiento = new javax.swing.JTextField();
         labelEjemplares = new javax.swing.JLabel();
         spinnerEjemplares = new javax.swing.JSpinner();
         labelDescripcion = new javax.swing.JLabel();
@@ -204,6 +207,7 @@ public class LibroFrm extends javax.swing.JFrame {
         labelEditorial = new javax.swing.JLabel();
         labelCategoria = new javax.swing.JLabel();
         labelAutores = new javax.swing.JLabel();
+        calendarFechaLanzamiento = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -319,8 +323,8 @@ public class LibroFrm extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(labelFechaLanzamiento)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(textFechaLanzamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(calendarFechaLanzamiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(labelTitulo)
@@ -338,7 +342,7 @@ public class LibroFrm extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(labelEjemplares)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(spinnerEjemplares)))
+                                .addComponent(spinnerEjemplares, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
@@ -367,7 +371,7 @@ public class LibroFrm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(buttonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(144, 144, 144)
-                        .addComponent(buttonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(buttonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
                         .addGap(149, 149, 149)
                         .addComponent(buttonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -410,9 +414,9 @@ public class LibroFrm extends javax.swing.JFrame {
                             .addComponent(labelIdioma)
                             .addComponent(textIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(labelFechaLanzamiento)
-                            .addComponent(textFechaLanzamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(calendarFechaLanzamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(spinnerEjemplares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -447,7 +451,7 @@ public class LibroFrm extends javax.swing.JFrame {
         textIsbn.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("isbn"))));
         textDescripcion.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("descripcion"))));
         textPaginas.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("paginas"))));
-        textFechaLanzamiento.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_lanzamiento"))));
+        calendarFechaLanzamiento.setDateFormatString(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_lanzamiento"))));
         textIdioma.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("idioma"))));
         textEdicion.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("edicion"))));
         spinnerEjemplares.setValue(Integer.parseInt(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("nro_ejemplares")))));
@@ -523,6 +527,7 @@ public class LibroFrm extends javax.swing.JFrame {
     private javax.swing.JButton buttonEliminar;
     private javax.swing.JButton buttonModificar;
     private javax.swing.JButton buttonRegistrar;
+    private com.toedter.calendar.JDateChooser calendarFechaLanzamiento;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -545,7 +550,6 @@ public class LibroFrm extends javax.swing.JFrame {
     private javax.swing.JTable tableLibros;
     private javax.swing.JTextField textDescripcion;
     private javax.swing.JTextField textEdicion;
-    private javax.swing.JTextField textFechaLanzamiento;
     private javax.swing.JTextField textIdioma;
     private javax.swing.JTextField textIsbn;
     private javax.swing.JTextField textPaginas;
