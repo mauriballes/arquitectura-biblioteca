@@ -30,8 +30,8 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="labelFechaLanzamiento" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="textFechaLanzamiento" min="-2" pref="122" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="calendarFechaLanzamiento" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -53,7 +53,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="labelEjemplares" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="spinnerEjemplares" max="32767" attributes="0"/>
+                              <Component id="spinnerEjemplares" pref="162" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -92,7 +92,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="buttonRegistrar" min="-2" pref="111" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="144" max="-2" attributes="0"/>
-                      <Component id="buttonModificar" max="32767" attributes="0"/>
+                      <Component id="buttonModificar" pref="123" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="149" max="-2" attributes="0"/>
                       <Component id="buttonEliminar" min="-2" pref="111" max="-2" attributes="0"/>
                   </Group>
@@ -149,9 +149,9 @@
                           <Component id="textIdioma" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="labelFechaLanzamiento" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="textFechaLanzamiento" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="labelFechaLanzamiento" min="-2" max="-2" attributes="0"/>
+                          <Component id="calendarFechaLanzamiento" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -219,8 +219,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Fecha Lanzamiento"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="textFechaLanzamiento">
     </Component>
     <Component class="javax.swing.JLabel" name="labelEjemplares">
       <Properties>
@@ -436,6 +434,8 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Autores"/>
       </Properties>
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="calendarFechaLanzamiento">
     </Component>
   </SubComponents>
 </Form>

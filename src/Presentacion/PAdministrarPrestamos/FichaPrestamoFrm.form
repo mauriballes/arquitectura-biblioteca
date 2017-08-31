@@ -44,11 +44,11 @@
                       <EmptySpace min="-2" pref="120" max="-2" attributes="0"/>
                       <Component id="labelFechaPrestamo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="textFechaPrestamo" min="-2" pref="132" max="-2" attributes="0"/>
+                      <Component id="calendarFechaPrestamo" min="-2" pref="132" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="labelFechaDevolucion" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="textFechaDevolucion" min="-2" pref="132" max="-2" attributes="0"/>
+                      <Component id="calendarFechaDevolucion" min="-2" pref="130" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -90,11 +90,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="labelFechaPrestamo" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="textFechaPrestamo" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="labelFechaDevolucion" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="textFechaDevolucion" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelFechaPrestamo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelFechaDevolucion" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="calendarFechaPrestamo" min="-2" max="-2" attributes="0"/>
+                  <Component id="calendarFechaDevolucion" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -138,10 +140,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Fecha de Prestamo"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="textFechaPrestamo">
-    </Component>
-    <Component class="javax.swing.JTextField" name="textFechaDevolucion">
     </Component>
     <Component class="javax.swing.JLabel" name="labelFechaDevolucion">
       <Properties>
@@ -425,6 +423,10 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Detalle Prestamos"/>
       </Properties>
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="calendarFechaPrestamo">
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="calendarFechaDevolucion">
     </Component>
   </SubComponents>
 </Form>

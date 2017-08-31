@@ -36,7 +36,7 @@ public class Conexion {
     public void abrirConexion() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "biblio", "libro");
+            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "");
         } catch (SQLException e) {
             System.out.println("Connection Error: " + e.getMessage());
         } catch (ClassNotFoundException ex) {

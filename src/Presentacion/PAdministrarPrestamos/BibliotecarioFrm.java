@@ -43,7 +43,7 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
         textApellidos.setText("");
         textNombres.setText("");
         textDireccion.setText("");
-        textFechaNacimiento.setText("");
+        calendarFechaNacimiento.setDateFormatString("");
         textAnoContratacion.setText("");
         textTelefono.setText("");
     }
@@ -55,8 +55,11 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
 
     public void modificarBibliotecario() {
         String[] tableHeader = new String[]{"id", "ci", "apellidos", "nombres", "direccion", "fecha_nacimiento", "sexo", "telefono", "ano_contratacion", "id_persona"};
-        String[] dateString = textFechaNacimiento.getText().split("-");
-        Date date = Date.valueOf(dateString[0] +"-"+ dateString[1] +"-"+ dateString[2]);
+        int dia = calendarFechaNacimiento.getDate().getDate();
+        int mes = calendarFechaNacimiento.getDate().getMonth() + 1;
+        int anio = calendarFechaNacimiento.getDate().getYear() + 1900;
+        String fechaNacimiento = anio+"-"+mes+"-"+dia;
+        Date date = Date.valueOf(fechaNacimiento);
         DefaultTableModel bibliotecariosUpdated = (DefaultTableModel) tableBibliotecarios.getModel();
         int fila = tableBibliotecarios.getSelectedRow();
         m_BibliotecarioNegocio.modificarBibliotecario(
@@ -74,7 +77,7 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
         bibliotecariosUpdated.setValueAt(textApellidos.getText(), fila, Arrays.asList(tableHeader).indexOf("apellidos"));
         bibliotecariosUpdated.setValueAt(textNombres.getText(), fila, Arrays.asList(tableHeader).indexOf("nombres"));
         bibliotecariosUpdated.setValueAt(textDireccion.getText(), fila, Arrays.asList(tableHeader).indexOf("direccion"));
-        bibliotecariosUpdated.setValueAt(textFechaNacimiento.getText(), fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento"));
+        bibliotecariosUpdated.setValueAt(fechaNacimiento, fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento"));
         bibliotecariosUpdated.setValueAt(String.valueOf(comboSexo.getSelectedItem()).charAt(0), fila, Arrays.asList(tableHeader).indexOf("sexo"));
         bibliotecariosUpdated.setValueAt(textTelefono.getText(), fila, Arrays.asList(tableHeader).indexOf("telefono"));
         bibliotecariosUpdated.setValueAt(textAnoContratacion.getText(), fila, Arrays.asList(tableHeader).indexOf("ano_contratacion"));
@@ -92,8 +95,10 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
     }
 
     public void registrarBibliotecario() {
-        String[] dateString = textFechaNacimiento.getText().split("-");
-        Date date = Date.valueOf(dateString[0] +"-"+ dateString[1] +"-"+ dateString[2]);
+        int dia = calendarFechaNacimiento.getDate().getDate();
+        int mes = calendarFechaNacimiento.getDate().getMonth() + 1;
+        int anio = calendarFechaNacimiento.getDate().getYear() + 1900;
+        Date date = Date.valueOf(anio+"-"+mes+"-"+dia);
         int id = m_BibliotecarioNegocio.registrarBibliotecario(
                 Integer.parseInt(textCi.getText()),
                 textApellidos.getText(),
@@ -139,7 +144,6 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
         textApellidos = new javax.swing.JTextField();
         textNombres = new javax.swing.JTextField();
         textDireccion = new javax.swing.JTextField();
-        textFechaNacimiento = new javax.swing.JTextField();
         textTelefono = new javax.swing.JTextField();
         textAnoContratacion = new javax.swing.JTextField();
         comboSexo = new javax.swing.JComboBox<>();
@@ -148,6 +152,7 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
         buttonRegistrar = new javax.swing.JButton();
         buttonModificar = new javax.swing.JButton();
         buttonEliminar = new javax.swing.JButton();
+        calendarFechaNacimiento = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -214,60 +219,58 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelApellidos)
-                            .addComponent(labelCi))
-                        .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textCi, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textApellidos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(330, 377, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(labelNombres)
-                                            .addComponent(labelDireccion))
-                                        .addGap(20, 20, 20)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(textNombres, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                                            .addComponent(textDireccion))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(labelSexo)
-                                                .addComponent(labelFechaNacimiento)
-                                                .addComponent(labelTelefono))
-                                            .addComponent(labelAnoContratacion))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(buttonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(144, 144, 144)
-                                        .addComponent(buttonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(71, 71, 71)))
+                                    .addComponent(labelNombres)
+                                    .addComponent(labelDireccion))
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(textNombres, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                                    .addComponent(textDireccion))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(labelSexo)
+                                        .addComponent(labelFechaNacimiento)
+                                        .addComponent(labelTelefono))
+                                    .addComponent(labelAnoContratacion))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(buttonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(144, 144, 144)
+                                .addComponent(buttonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                                .addGap(71, 71, 71))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(textTelefono, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(textFechaNacimiento, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(comboSexo, javax.swing.GroupLayout.Alignment.TRAILING, 0, 189, Short.MAX_VALUE)
-                                        .addComponent(textAnoContratacion))
-                                    .addComponent(buttonEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(20, 20, 20))))
+                                    .addComponent(labelApellidos)
+                                    .addComponent(labelCi))
+                                .addGap(21, 21, 21)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textCi, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(textApellidos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textTelefono, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(comboSexo, javax.swing.GroupLayout.Alignment.TRAILING, 0, 189, Short.MAX_VALUE)
+                            .addComponent(textAnoContratacion)
+                            .addComponent(buttonEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(calendarFechaNacimiento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCi)
-                    .addComponent(labelFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textCi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelCi)
+                        .addComponent(labelFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(textCi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(calendarFechaNacimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,7 +315,7 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
         textApellidos.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("apellidos"))));
         textNombres.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("nombres"))));
         textDireccion.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("direccion"))));
-        textFechaNacimiento.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento"))));
+        calendarFechaNacimiento.setDateFormatString(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento"))));
         textTelefono.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("telefono"))));
         textAnoContratacion.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("ano_contratacion"))));
         comboSexo.setSelectedItem(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("sexo"))));
@@ -365,6 +368,7 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
     private javax.swing.JButton buttonEliminar;
     private javax.swing.JButton buttonModificar;
     private javax.swing.JButton buttonRegistrar;
+    private com.toedter.calendar.JDateChooser calendarFechaNacimiento;
     private javax.swing.JComboBox<String> comboSexo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelAnoContratacion;
@@ -380,7 +384,6 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
     private javax.swing.JTextField textApellidos;
     private javax.swing.JTextField textCi;
     private javax.swing.JTextField textDireccion;
-    private javax.swing.JTextField textFechaNacimiento;
     private javax.swing.JTextField textNombres;
     private javax.swing.JTextField textTelefono;
     // End of variables declaration//GEN-END:variables

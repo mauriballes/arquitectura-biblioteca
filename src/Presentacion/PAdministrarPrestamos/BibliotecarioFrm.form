@@ -25,66 +25,60 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="labelApellidos" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelCi" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="textCi" min="-2" pref="223" max="-2" attributes="0"/>
-                          <Component id="textApellidos" alignment="1" min="-2" pref="223" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="330" pref="377" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="labelNombres" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="labelDireccion" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="textNombres" pref="223" max="32767" attributes="0"/>
-                                          <Component id="textDireccion" max="32767" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                              <Component id="labelSexo" min="-2" max="-2" attributes="0"/>
-                                              <Component id="labelFechaNacimiento" min="-2" max="-2" attributes="0"/>
-                                              <Component id="labelTelefono" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="labelAnoContratacion" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="buttonRegistrar" min="-2" pref="111" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="144" max="-2" attributes="0"/>
-                                      <Component id="buttonModificar" max="32767" attributes="0"/>
-                                      <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="labelNombres" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelDireccion" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="textNombres" pref="223" max="32767" attributes="0"/>
+                                  <Component id="textDireccion" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                      <Component id="labelSexo" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelFechaNacimiento" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelTelefono" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="labelAnoContratacion" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="buttonRegistrar" min="-2" pref="111" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="144" max="-2" attributes="0"/>
+                              <Component id="buttonModificar" pref="128" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="textTelefono" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="textFechaNacimiento" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="comboSexo" alignment="1" pref="189" max="32767" attributes="0"/>
-                                      <Component id="textAnoContratacion" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Component id="buttonEliminar" alignment="1" min="-2" pref="111" max="-2" attributes="0"/>
+                                  <Component id="labelApellidos" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelCi" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="textCi" min="-2" pref="223" max="-2" attributes="0"/>
+                                  <Component id="textApellidos" alignment="1" min="-2" pref="223" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="textTelefono" alignment="1" max="32767" attributes="0"/>
+                          <Component id="comboSexo" alignment="1" pref="189" max="32767" attributes="0"/>
+                          <Component id="textAnoContratacion" max="32767" attributes="0"/>
+                          <Component id="buttonEliminar" alignment="1" min="-2" pref="111" max="-2" attributes="0"/>
+                          <Component id="calendarFechaNacimiento" alignment="1" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -92,11 +86,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="labelCi" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="labelFechaNacimiento" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                  <Component id="textCi" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="textFechaNacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelCi" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelFechaNacimiento" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                      <Component id="textCi" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="calendarFechaNacimiento" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -182,8 +178,6 @@
     <Component class="javax.swing.JTextField" name="textNombres">
     </Component>
     <Component class="javax.swing.JTextField" name="textDireccion">
-    </Component>
-    <Component class="javax.swing.JTextField" name="textFechaNacimiento">
     </Component>
     <Component class="javax.swing.JTextField" name="textTelefono">
     </Component>
@@ -278,6 +272,8 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonEliminarActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="calendarFechaNacimiento">
     </Component>
   </SubComponents>
 </Form>

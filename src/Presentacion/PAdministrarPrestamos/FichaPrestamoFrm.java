@@ -120,10 +120,14 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
     
     public void registrarPrestamo() {
         int columnaLibro = 1, columnaEjemplar = 2;
-        String[] dateString = textFechaPrestamo.getText().split("-");
-        Date datePrestamo = Date.valueOf(dateString[0] + "-" + dateString[1] + "-" + dateString[2]);
-        dateString = textFechaDevolucion.getText().split("-");
-        Date dateDevolucion = Date.valueOf(dateString[0] + "-" + dateString[1] + "-" + dateString[2]);
+        int dia = calendarFechaPrestamo.getDate().getDate();
+        int mes = calendarFechaPrestamo.getDate().getMonth();
+        int anio = calendarFechaPrestamo.getDate().getYear();
+        Date datePrestamo = Date.valueOf(anio + "-" + mes + "-" + dia);
+        dia = calendarFechaDevolucion.getDate().getDate();
+        mes = calendarFechaDevolucion.getDate().getMonth();
+        anio = calendarFechaDevolucion.getDate().getYear();
+        Date dateDevolucion = Date.valueOf(anio + "-" + mes + "-" + dia);
         LinkedList<Integer> ids_libro = new LinkedList<>();
         LinkedList<Integer> nro_ejemplares = new LinkedList<>();
         DefaultTableModel detalle = (DefaultTableModel) tableDetallePrestamos.getModel();
@@ -160,8 +164,6 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
     private void initComponents() {
 
         labelFechaPrestamo = new javax.swing.JLabel();
-        textFechaPrestamo = new javax.swing.JTextField();
-        textFechaDevolucion = new javax.swing.JTextField();
         labelFechaDevolucion = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableLibros = new javax.swing.JTable();
@@ -184,6 +186,8 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tableDetallePrestamos = new javax.swing.JTable();
         labelDetallePrestamos = new javax.swing.JLabel();
+        calendarFechaPrestamo = new com.toedter.calendar.JDateChooser();
+        calendarFechaDevolucion = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -326,11 +330,11 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
                         .addGap(120, 120, 120)
                         .addComponent(labelFechaPrestamo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textFechaPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(calendarFechaPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelFechaDevolucion)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(calendarFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
@@ -361,11 +365,12 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelFechaPrestamo)
-                    .addComponent(textFechaPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelFechaDevolucion)
-                    .addComponent(textFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelFechaPrestamo)
+                        .addComponent(labelFechaDevolucion))
+                    .addComponent(calendarFechaPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(calendarFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelLectores)
@@ -479,6 +484,8 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
     private javax.swing.JButton buttonConcretar;
     private javax.swing.JButton buttonObtener;
     private javax.swing.JButton buttonRegistrar;
+    private com.toedter.calendar.JDateChooser calendarFechaDevolucion;
+    private com.toedter.calendar.JDateChooser calendarFechaPrestamo;
     private javax.swing.JComboBox<String> comboEjemplar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -498,7 +505,5 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
     private javax.swing.JTable tableLectores;
     private javax.swing.JTable tableLibros;
     private javax.swing.JTable tablePrestamos;
-    private javax.swing.JTextField textFechaDevolucion;
-    private javax.swing.JTextField textFechaPrestamo;
     // End of variables declaration//GEN-END:variables
 }
