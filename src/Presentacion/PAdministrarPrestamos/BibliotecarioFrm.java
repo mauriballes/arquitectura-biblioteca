@@ -315,7 +315,7 @@ public class BibliotecarioFrm extends javax.swing.JFrame {
         textApellidos.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("apellidos"))));
         textNombres.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("nombres"))));
         textDireccion.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("direccion"))));
-        calendarFechaNacimiento.setDateFormatString(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento"))));
+        calendarFechaNacimiento.setDate(Date.valueOf(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_nacimiento")))));
         textTelefono.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("telefono"))));
         textAnoContratacion.setText(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("ano_contratacion"))));
         comboSexo.setSelectedItem(String.valueOf(bibliotecarios.getValueAt(fila, Arrays.asList(tableHeader).indexOf("sexo"))));

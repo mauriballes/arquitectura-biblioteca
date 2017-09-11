@@ -121,12 +121,12 @@ public class FichaPrestamoFrm extends javax.swing.JFrame {
     public void registrarPrestamo() {
         int columnaLibro = 1, columnaEjemplar = 2;
         int dia = calendarFechaPrestamo.getDate().getDate();
-        int mes = calendarFechaPrestamo.getDate().getMonth();
-        int anio = calendarFechaPrestamo.getDate().getYear();
+        int mes = calendarFechaPrestamo.getDate().getMonth() + 1;
+        int anio = calendarFechaPrestamo.getDate().getYear() + 1900;
         Date datePrestamo = Date.valueOf(anio + "-" + mes + "-" + dia);
         dia = calendarFechaDevolucion.getDate().getDate();
-        mes = calendarFechaDevolucion.getDate().getMonth();
-        anio = calendarFechaDevolucion.getDate().getYear();
+        mes = calendarFechaDevolucion.getDate().getMonth() + 1;
+        anio = calendarFechaDevolucion.getDate().getYear() + 1900;
         Date dateDevolucion = Date.valueOf(anio + "-" + mes + "-" + dia);
         LinkedList<Integer> ids_libro = new LinkedList<>();
         LinkedList<Integer> nro_ejemplares = new LinkedList<>();
