@@ -80,8 +80,8 @@ public class LibroFrm extends javax.swing.JFrame {
     public void modificarLibro() {
         String[] tableHeader = new String[]{"id", "titulo", "isbn", "descripcion", "paginas", "fecha_lanzamiento", "idioma", "edicion", "nro_ejemplares", "id_categoria", "id_editorial", "ids_autores"};
         int dia = calendarFechaLanzamiento.getDate().getDate();
-        int mes = calendarFechaLanzamiento.getDate().getMonth();
-        int anio = calendarFechaLanzamiento.getDate().getYear();
+        int mes = calendarFechaLanzamiento.getDate().getMonth() + 1;
+        int anio = calendarFechaLanzamiento.getDate().getYear() + 1900;
         Date date = Date.valueOf(anio +"-"+ mes +"-"+ dia);
         LinkedList<Integer> autores = new LinkedList<>();
         int[] autoresSelected = tableAutores.getSelectedRows();
@@ -132,8 +132,8 @@ public class LibroFrm extends javax.swing.JFrame {
     
     public void registrarLibro() {
         int dia = calendarFechaLanzamiento.getDate().getDate();
-        int mes = calendarFechaLanzamiento.getDate().getMonth();
-        int anio = calendarFechaLanzamiento.getDate().getYear();
+        int mes = calendarFechaLanzamiento.getDate().getMonth() + 1;
+        int anio = calendarFechaLanzamiento.getDate().getYear() + 1900;
         Date date = Date.valueOf(anio +"-"+ mes +"-"+ dia);
         LinkedList<Integer> autores = new LinkedList<>();
         int[] autoresSelected = tableAutores.getSelectedRows();
@@ -451,7 +451,7 @@ public class LibroFrm extends javax.swing.JFrame {
         textIsbn.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("isbn"))));
         textDescripcion.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("descripcion"))));
         textPaginas.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("paginas"))));
-        calendarFechaLanzamiento.setDateFormatString(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_lanzamiento"))));
+        calendarFechaLanzamiento.setDate(Date.valueOf(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("fecha_lanzamiento")))));
         textIdioma.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("idioma"))));
         textEdicion.setText(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("edicion"))));
         spinnerEjemplares.setValue(Integer.parseInt(String.valueOf(libros.getValueAt(fila, Arrays.asList(tableHeader).indexOf("nro_ejemplares")))));
